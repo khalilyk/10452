@@ -11,8 +11,16 @@
  */
 export function Footer() {
   return (
-    <footer className="border-t border-ink/10 bg-paper px-5 py-5 text-[11.5px] text-ink/70 sm:px-8 sm:text-[12.5px]">
-      © 10452.SPACE {new Date().getFullYear()}
+    <footer className="flex flex-wrap items-center justify-between gap-x-6 gap-y-1 border-t border-ink/10 bg-paper px-5 py-5 text-[11.5px] text-ink/70 sm:px-8 sm:text-[12.5px]">
+      <span>© 10452.SPACE {new Date().getFullYear()}</span>
+      <a
+        href="https://printparadise.com.au"
+        target="_blank"
+        rel="noreferrer noopener"
+        className="tracking-wide transition-opacity hover:opacity-60"
+      >
+        PRINTED WITH PRINT PARADISE
+      </a>
     </footer>
   )
 }

@@ -15,7 +15,7 @@ export function Header({ dropNumber, cartCount }: { dropNumber: string; cartCoun
         {SHIPPING}
       </div>
 
-      <div className="grid grid-cols-[1fr_auto_1fr] items-start gap-4 px-5 py-4 sm:px-8 sm:py-5">
+      <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-4 px-5 py-4 sm:px-8 sm:py-5">
         <Logo />
 
         <span className="self-center text-[13px] font-medium tracking-widest sm:text-[15px]">

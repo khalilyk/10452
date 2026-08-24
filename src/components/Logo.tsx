@@ -1,58 +1,15 @@
 /**
- * The mark: لبنان in red over 10452 in green, ruled off by SPACE.
+ * The mark: "10452" with the plastic chair standing in for a third digit —
+ * the Lebanese white plastic chair that comes up throughout the brand copy.
  *
- * Drawn as text rather than an image so it stays crisp at any size, remains
- * selectable and searchable, and can be recoloured for a dark header without
- * shipping a second asset.
+ * A single flat asset rather than drawn text: the chair is illustration, not
+ * type, so there is no typeface substitute for it. Alt text carries the name
+ * for anyone not seeing the image; the anchor's aria-label would only repeat it.
  */
-export function Logo({ className = '', invert = false }: { className?: string; invert?: boolean }) {
+export function Logo({ className = '' }: { className?: string }) {
   return (
-    <a
-      href="/"
-      aria-label="10452.SPACE — home"
-      /*
-        inline-flex + items-start, not inline-block. With block children the
-        anchor filled its grid cell, and `dir="rtl"` then aligned لبنان to the
-        right of that full width — which put it in the middle of the header
-        instead of above the numerals.
-      */
-      className={`inline-flex flex-col items-start leading-none ${className}`}
-    >
-      <span
-        className={`block text-[26px] font-bold leading-[0.9] tracking-tight sm:text-[30px] ${
-          invert ? 'text-white' : 'text-liban-red'
-        }`}
-        lang="ar"
-      >
-        لبنان
-      </span>
-      <span
-        className={`mt-0.5 block text-[26px] font-bold leading-[0.9] tracking-[0.02em] sm:text-[30px] ${
-          invert ? 'text-white' : 'text-ink'
-        }`}
-      >
-        10452
-      </span>
-      <span className="mt-1 flex items-center gap-1.5">
-        <Rule invert={invert} />
-        <span
-          className={`text-[9px] font-semibold tracking-[0.42em] sm:text-[10px] ${
-            invert ? 'text-white' : 'text-liban-red'
-          }`}
-        >
-          SPACE
-        </span>
-        <Rule invert={invert} />
-      </span>
+    <a href="/" aria-label="10452.SPACE — home" className={`inline-flex items-center ${className}`}>
+      <img src="/brand/logo.png" alt="10452.SPACE" className="h-11 w-auto sm:h-[52px]" />
     </a>
-  )
-}
-
-function Rule({ invert }: { invert: boolean }) {
-  return (
-    <span
-      aria-hidden
-      className={`h-[2px] w-2.5 ${invert ? 'bg-white' : 'bg-liban-red'}`}
-    />
   )
 }
