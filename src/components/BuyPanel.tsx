@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { Drop } from '../data/drops.ts'
-import { initialStock, SHIPPING_AUD } from '../data/drops.ts'
+import { closesAt, initialStock, SHIPPING_AUD } from '../data/drops.ts'
 import { checkout, fetchStock } from '../lib/commerce.ts'
+import { DropTimer } from './DropTimer.tsx'
 import { SplitFlap } from './SplitFlap.tsx'
 
 /**
@@ -96,8 +97,7 @@ export function BuyPanel({ drop, onAdd }: { drop: Drop; onAdd: (qty: number) => 
             {drop.name.toUpperCase()}
           </h1>
           <p className="text-[11px] tracking-widest sm:text-[12px]">
-            LIMITED DROP -{' '}
-            <span className="text-liban-red underline underline-offset-4">NO REPEAT</span>
+            CLOSES IN <DropTimer closesAt={closesAt(drop)} />
           </p>
         </div>
 

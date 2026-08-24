@@ -100,6 +100,15 @@ export const initialStock = (drop: Drop): Record<string, number> =>
 export const liveDrop = (): Drop | undefined => DROPS.find((d) => d.status === 'live')
 export const archive = (): Drop[] => DROPS.filter((d) => d.status === 'sold-out')
 
+export const DROP_WINDOW_DAYS = 30
+
+/** The moment a drop closes: 30 days after it released, one chapter's window. */
+export const closesAt = (drop: Drop): Date => {
+  const d = new Date(drop.releasedAt)
+  d.setDate(d.getDate() + DROP_WINDOW_DAYS)
+  return d
+}
+
 /** "12 DROPS. 12 MONTHS. 100 PIECES EACH. NO REPEATS." */
 export const MANIFESTO = {
   drops: 12,
