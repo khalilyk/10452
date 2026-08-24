@@ -38,14 +38,6 @@ export function Hero({ drop }: { drop: Drop }) {
           <code className="text-ink/60">image</code> on the drop.
         </span>
       </div>
-
-      {/* Frame notation, as on a contact sheet. */}
-      <span className="absolute bottom-3 left-4 text-[9px] tracking-widest text-ink/35">
-        {drop.number} / {drop.edition}
-      </span>
-      <span className="absolute bottom-3 right-4 text-[9px] tracking-widest text-ink/35">
-        {drop.tagline?.toUpperCase()}
-      </span>
     </div>
   )
 }
