@@ -3,8 +3,8 @@ import { NEXT_DROP } from '../data/drops.ts'
 /**
  * The next chapter, teased ahead of the reveal.
  *
- * Split screen like the rest of the page, but inverted within itself — paper
- * left, ink right — so it sits between the paper About section above and the
+ * Split screen like the rest of the page, but inverted within itself — ink
+ * left, paper right — so it sits between the paper About section above and the
  * black shipping band below without repeating either.
  *
  * The right panel is the same honesty pattern as the Hero placeholder: it does
@@ -14,7 +14,7 @@ import { NEXT_DROP } from '../data/drops.ts'
 export function NextDrop() {
   return (
     <section className="grid bg-cream lg:grid-cols-2" aria-labelledby="next-drop-heading">
-      <div className="order-2 flex flex-col justify-center px-5 py-16 sm:px-8 sm:py-20 lg:order-1 lg:py-24 lg:pl-16 lg:pr-14">
+      <div className="order-2 flex flex-col justify-center px-5 py-16 sm:px-8 sm:py-20 lg:py-24 lg:pl-14 lg:pr-16">
         <p className="text-[10.5px] tracking-widest text-ink/50">NEXT CHAPTER</p>
 
         <h2
@@ -33,7 +33,7 @@ export function NextDrop() {
         </p>
       </div>
 
-      <div className="relative order-1 aspect-[4/3] overflow-hidden bg-ink lg:order-2 lg:aspect-auto">
+      <div className="relative order-1 aspect-[4/3] overflow-hidden bg-ink lg:aspect-auto">
         <Hatch />
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
           <span
