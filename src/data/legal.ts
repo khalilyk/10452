@@ -21,7 +21,7 @@ export const PRIVACY_POLICY: { updated: string; sections: LegalSection[] } = {
     {
       heading: 'Who we are',
       body: [
-        '10452.SPACE is an independent, Lebanon-inspired clothing project based in Australia. This policy covers the information collected through 10452.space.',
+        '10452.SPACE is a Lebanon-inspired clothing project operated by Print Paradise Australia. This policy covers the information collected through 10452.space.',
       ],
     },
     {
@@ -68,6 +68,12 @@ export const PRIVACY_POLICY: { updated: string; sections: LegalSection[] } = {
 export const TERMS: { updated: string; sections: LegalSection[] } = {
   updated: UPDATED,
   sections: [
+    {
+      heading: 'Who you\'re buying from',
+      body: [
+        '10452.SPACE is operated by Print Paradise Australia ("we", "us"). These terms govern any purchase made through 10452.space.',
+      ],
+    },
     {
       heading: 'The drops',
       body: [
