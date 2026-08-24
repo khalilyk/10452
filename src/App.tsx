@@ -7,6 +7,7 @@ import { ShippingBand } from './components/ShippingBand.tsx'
 import { NextDrop } from './components/NextDrop.tsx'
 import { Contact } from './components/Contact.tsx'
 import { Marquee } from './components/Marquee.tsx'
+import { FooterMark } from './components/FooterMark.tsx'
 import { Footer } from './components/Footer.tsx'
 import { liveDrop, MANIFESTO, PRODUCTION_LINE } from './data/drops.ts'
 
@@ -37,6 +38,7 @@ export default function App() {
       <NextDrop />
       <ShippingBand />
       <Contact />
+      <FooterMark />
       <Footer />
     </div>
   )
