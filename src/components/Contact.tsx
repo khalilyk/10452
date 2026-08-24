@@ -2,18 +2,17 @@ import { useState } from 'react'
 import { CONTACT, sendEnquiry } from '../lib/contact.ts'
 
 /**
- * Details left on grey, form right on paper.
+ * Details left on white, form right on paper.
  *
- * Three tones down this stretch of the page rather than two: the shipping band
- * is black, the details grey, the form paper. Black against black would have
- * merged the band and the details into one slab, and flipping only the form
- * would have left both halves light and the split reading as no split at all.
+ * The two halves are close in tone on purpose — white against paper is a seam,
+ * not a border. The black shipping band directly above carries the contrast for
+ * this stretch, so the split below it can stay quiet.
  */
 export function Contact() {
   return (
     <section id="contact" className="grid lg:grid-cols-2" aria-labelledby="contact-heading">
-      <div className="flex flex-col justify-center bg-graphite px-5 py-14 text-white sm:px-8 sm:py-20 lg:py-24 lg:pl-16 lg:pr-14">
-        <p className="text-[10.5px] tracking-widest text-white/70">CONTACT</p>
+      <div className="flex flex-col justify-center bg-white px-5 py-14 text-ink sm:px-8 sm:py-20 lg:py-24 lg:pl-16 lg:pr-14">
+        <p className="text-[10.5px] tracking-widest text-ink/60">CONTACT</p>
 
         <h2
           id="contact-heading"
@@ -22,13 +21,13 @@ export function Contact() {
           SAY SOMETHING
         </h2>
 
-        <p className="mt-5 max-w-[30rem] text-[13px] leading-[1.95] text-white/80">
+        <p className="mt-5 max-w-[30rem] text-[13px] leading-[1.95] text-ink/75">
           Questions about a drop, sizing, an order, or an idea for a future
           chapter. If you know a reference we should be making, tell us — half of
           this project comes from other people's memories.
         </p>
 
-        <dl className="mt-9 max-w-[34rem] space-y-3.5 border-t border-white/25 pt-5 text-[12.5px]">
+        <dl className="mt-9 max-w-[34rem] space-y-3.5 border-t border-ink/15 pt-5 text-[12.5px]">
           <Row label="INSTAGRAM">
             <a
               href={`https://instagram.com/${CONTACT.instagram.replace('@', '')}`}
@@ -48,7 +47,7 @@ export function Contact() {
                 {CONTACT.address}
               </a>
             ) : (
-              <span className="text-white/65">Not published yet</span>
+              <span className="text-ink/60">Not published yet</span>
             )}
           </Row>
           <Row label="SHIPPING">{CONTACT.location}</Row>
@@ -63,7 +62,7 @@ export function Contact() {
 function Row({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="flex items-baseline justify-between gap-6">
-      <dt className="shrink-0 text-[10px] tracking-widest text-white/70">{label}</dt>
+      <dt className="shrink-0 text-[10px] tracking-widest text-ink/60">{label}</dt>
       <dd className="text-right">{children}</dd>
     </div>
   )
@@ -111,7 +110,7 @@ function ContactForm() {
         <Field label="EMAIL" value={email} onChange={setEmail} type="email" autoComplete="email" />
 
         <label className="block">
-          <span className="text-[10px] tracking-widest text-ink/50">MESSAGE</span>
+          <span className="text-[10px] tracking-widest text-ink/60">MESSAGE</span>
           <textarea
             value={message}
             onChange={(e) => setMessage(e.target.value)}
@@ -150,7 +149,7 @@ function Field({
 }) {
   return (
     <label className="block">
-      <span className="text-[10px] tracking-widest text-ink/50">{label}</span>
+      <span className="text-[10px] tracking-widest text-ink/60">{label}</span>
       <input
         type={type}
         value={value}
