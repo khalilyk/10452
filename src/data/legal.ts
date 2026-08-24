@@ -35,13 +35,13 @@ export const PRIVACY_POLICY: { updated: string; sections: LegalSection[] } = {
     {
       heading: 'How we use it',
       body: [
-        'To answer what you asked, and to make, pack and ship an order if you place one. That is the whole list — nothing is used for anything else, and nothing is sold to anyone.',
+        'To answer what you asked, and to make, pack and ship an order if you place one. That is the whole list: nothing is used for anything else, and nothing is sold to anyone.',
       ],
     },
     {
       heading: 'Payment',
       body: [
-        'Payment is handled by a third-party processor, not by us directly. We do not see or store full card numbers — the processor does, under its own security standards.',
+        'Payment is handled by a third-party processor, not by us directly. We do not see or store full card numbers; the processor does, under its own security standards.',
       ],
     },
     {
@@ -53,7 +53,7 @@ export const PRIVACY_POLICY: { updated: string; sections: LegalSection[] } = {
     {
       heading: 'Your rights',
       body: [
-        'You can ask what we hold about you, ask us to correct it, or ask us to delete it. Message @10452.space on Instagram or use the contact form and we will sort it out directly — there is no call centre here, just us.',
+        'You can ask what we hold about you, ask us to correct it, or ask us to delete it. Message @10452.space on Instagram or use the contact form and we will sort it out directly. There is no call centre here, just us.',
       ],
     },
     {
@@ -77,7 +77,7 @@ export const TERMS: { updated: string; sections: LegalSection[] } = {
     {
       heading: 'The drops',
       body: [
-        'Each drop is 100 pieces, made once, never repeated. When it is gone, it is gone — there is no restock, no back-order, and no second run under a different name.',
+        'Each drop is 100 pieces, made once, never repeated. When it is gone, it is gone: there is no restock, no back-order, and no second run under a different name.',
         'Production begins once all 100 pieces of a drop are claimed. Nothing is made speculatively.',
       ],
     },
@@ -97,7 +97,7 @@ export const TERMS: { updated: string; sections: LegalSection[] } = {
     {
       heading: 'Returns and faults',
       body: [
-        'Because each drop is limited and made to order, we do not offer change-of-mind returns. Anything that arrives faulty or not as described is our responsibility to fix, replace or refund — nothing here overrides the consumer guarantees you are entitled to under Australian Consumer Law.',
+        'Because each drop is limited and made to order, we do not offer change-of-mind returns. Anything that arrives faulty or not as described is our responsibility to fix, replace or refund. Nothing here overrides the consumer guarantees you are entitled to under Australian Consumer Law.',
       ],
     },
     {

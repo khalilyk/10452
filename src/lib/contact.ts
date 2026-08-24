@@ -41,8 +41,8 @@ export async function sendEnquiry(enquiry: Enquiry): Promise<SendResult> {
   }
 
   if (CONTACT.address) {
-    const subject = `10452.SPACE — enquiry from ${enquiry.name || 'someone'}`
-    const body = `${enquiry.message}\n\n—\n${enquiry.name}\n${enquiry.email}`
+    const subject = `10452.SPACE: enquiry from ${enquiry.name || 'someone'}`
+    const body = `${enquiry.message}\n\n-\n${enquiry.name}\n${enquiry.email}`
     window.location.href =
       `mailto:${CONTACT.address}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
     return { ok: true, via: 'mail' }

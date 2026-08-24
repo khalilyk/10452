@@ -7,9 +7,10 @@ import { NEXT_DROP } from '../data/drops.ts'
  * left, paper right — so it sits between the paper About section above and the
  * black shipping band below without repeating either.
  *
- * The right panel is the same honesty pattern as the Hero placeholder: it does
- * not fake a campaign image. Number and hatch, nothing pretending to be a shot
- * that has not been taken yet.
+ * The right panel still isn't the real campaign shot; that has not been taken
+ * yet. topsecret.jpg gives it something to sit on rather than flat ink: a
+ * stack of blacked-out tees, visible enough under the overlay to read as a
+ * tease rather than a reveal.
  */
 export function NextDrop() {
   return (
@@ -34,6 +35,13 @@ export function NextDrop() {
       </div>
 
       <div className="relative order-1 aspect-[4/3] overflow-hidden bg-ink lg:aspect-auto">
+        <img
+          src="/drops/topsecret.jpg"
+          alt=""
+          aria-hidden
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        <div aria-hidden className="absolute inset-0 bg-ink/45" />
         <Hatch />
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
           <span

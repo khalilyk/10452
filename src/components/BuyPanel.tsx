@@ -52,7 +52,7 @@ export function BuyPanel({ drop, onAdd }: { drop: Drop; onAdd: (qty: number) => 
     if (result.ok) { window.location.href = result.redirectUrl; return }
     setError(
       result.reason === 'not-configured'
-        ? 'Checkout is not connected yet — no payment can be taken.'
+        ? 'Checkout is not connected yet: no payment can be taken.'
         : result.reason === 'sold-out'
           ? 'That was the last one.'
           : 'Something went wrong. Try again.',
@@ -97,7 +97,7 @@ export function BuyPanel({ drop, onAdd }: { drop: Drop; onAdd: (qty: number) => 
               value: s,
               // The run is split evenly, so the interesting number is not how
               // many were made but how many of *your* size are left.
-              label: stock[s] > 0 ? `${s} — ${stock[s]} LEFT` : `${s} — SOLD OUT`,
+              label: stock[s] > 0 ? `${s} · ${stock[s]} LEFT` : `${s} · SOLD OUT`,
               disabled: stock[s] <= 0,
             }))}
           />

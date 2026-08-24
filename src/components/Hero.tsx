@@ -14,7 +14,7 @@ export function Hero({ drop }: { drop: Drop }) {
       <div className="relative aspect-[4/5] w-full overflow-hidden bg-ink sm:aspect-[16/10] lg:aspect-[16/9]">
         <img
           src={drop.image}
-          alt={`${drop.name} — photographed in ${drop.location}`}
+          alt={`${drop.name}, photographed in ${drop.location}`}
           className="h-full w-full object-cover"
         />
       </div>
@@ -27,7 +27,7 @@ export function Hero({ drop }: { drop: Drop }) {
 
       <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 px-6 text-center">
         <span className="text-[10px] tracking-widest text-ink/40">
-          DROP {drop.number} — CAMPAIGN
+          DROP {drop.number} · CAMPAIGN
         </span>
         <span className="text-[13px] tracking-widest text-ink/70 sm:text-[15px]">
           {drop.location.toUpperCase()}

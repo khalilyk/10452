@@ -23,7 +23,7 @@ export function Contact() {
 
         <p className="mt-5 max-w-[30rem] text-[13px] leading-[1.95] text-ink/75">
           Questions about a drop, sizing, an order, or an idea for a future
-          chapter. If you know a reference we should be making, tell us — half of
+          chapter. If you know a reference we should be making, tell us: half of
           this project comes from other people's memories.
         </p>
 
@@ -89,7 +89,7 @@ function ContactForm() {
       setSent(true)
       setNote(
         result.via === 'mail'
-          ? 'Opening your mail app — send it from there and it reaches us.'
+          ? 'Opening your mail app: send it from there and it reaches us.'
           : 'Sent. We will come back to you.',
       )
       return

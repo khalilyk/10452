@@ -118,21 +118,15 @@ export const MANIFESTO = {
  */
 export const NEXT_DROP = {
   number: '002',
-  teaser: 'The next chapter is already being cut. Same city, same rules — one piece, one hundred pieces, no repeats.',
+  teaser: 'The next chapter is already being cut. Same city, same rules: one piece, one hundred pieces, no repeats.',
   revealsAt: 'OCTOBER 2026',
 }
 
-/**
- * The giving-back line.
- *
- * The charity itself is not named here on purpose — no partner has actually
- * been confirmed yet, and printing a specific name on a live page before the
- * relationship exists would be a false claim, not a placeholder. Replace
- * `charity` the moment a real partner is locked in.
- */
+/** The giving-back line. */
 export const GIVING = {
   amount: '$5',
-  charity: 'a Lebanese relief charity — partner to be announced',
+  charity: 'the We Deserve Better Foundation',
+  charityBlurb: 'humanitarian aid and support for communities in Lebanon and Nigeria',
 }
 
 export const SHIPPING = '$15 SHIPPING WORLDWIDE'
@@ -151,8 +145,8 @@ export const PRODUCTION_LINE =
 export const ABOUT = {
   heading: 'A NEW PIECE OF LEBANON, EVERY MONTH',
   body: [
-    '10452.SPACE is a limited-edition Lebanese project built around culture, nostalgia, humour and the everyday things that instantly feel like home. The name is Lebanon’s international dialling code — something every Lebanese person abroad already knows by heart.',
-    'This is not souvenir merchandise. Each drop takes one piece of Lebanese life — a plastic chair, a late-night table, a taxi, a balcony, an expression, a packet you grew up with — and reinterprets it. Designs should stand up on their own; if you know the reference, you get something extra.',
+    '10452.SPACE is a limited-edition Lebanese project built around culture, nostalgia, humour and the everyday things that instantly feel like home. The name is Lebanon’s international dialling code, something every Lebanese person abroad already knows by heart.',
+    'This is not souvenir merchandise. Each drop takes one piece of Lebanese life (a plastic chair, a late-night table, a taxi, a balcony, an expression, a packet you grew up with) and reinterprets it. Designs should stand up on their own; if you know the reference, you get something extra.',
     'Nothing is made until all 100 pieces are sold, so nothing is wasted. Once a drop is gone it enters the archive and we move on to the next chapter.',
   ],
   /** Portrait or still life. Null until the shoot lands. */

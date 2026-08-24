@@ -29,7 +29,7 @@ export function GivingBack() {
           {GIVING.amount} FROM EVERY SALE
         </h2>
         <p className="mx-auto mt-4 max-w-sm text-[12px] leading-relaxed tracking-wide text-white/85">
-          Goes toward {GIVING.charity}.
+          Goes toward {GIVING.charity}: {GIVING.charityBlurb}.
         </p>
       </div>
     </section>

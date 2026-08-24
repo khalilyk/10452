@@ -8,7 +8,7 @@
  */
 export function Logo({ className = '' }: { className?: string }) {
   return (
-    <a href="/" aria-label="10452.SPACE — home" className={`inline-flex items-center ${className}`}>
+    <a href="/" aria-label="10452.SPACE, home" className={`inline-flex items-center ${className}`}>
       <img src="/brand/logo.png" alt="10452.SPACE" className="h-11 w-auto sm:h-[52px]" />
     </a>
   )
