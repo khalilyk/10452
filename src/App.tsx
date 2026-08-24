@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Header } from './components/Header.tsx'
+import { OrderStatus } from './components/OrderStatus.tsx'
 import { Hero } from './components/Hero.tsx'
 import { BuyPanel } from './components/BuyPanel.tsx'
 import { About } from './components/About.tsx'
@@ -32,6 +33,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-cream">
       <Header dropNumber={drop.number} cartCount={cartCount} />
+      <OrderStatus />
       <Hero drop={drop} />
       <Marquee text={PRODUCTION_LINE} invert />
       <BuyPanel drop={drop} onAdd={(qty) => setCartCount((c) => c + qty)} />

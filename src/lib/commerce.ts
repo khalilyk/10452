@@ -1,29 +1,22 @@
 import type { Drop } from '../data/drops.ts'
 
 /**
- * Checkout, deliberately behind one seam.
+ * Checkout, behind one seam.
  *
- * Nothing here takes money yet, and that is stated rather than mimed. A button
- * that looks like it will sell a shirt and does nothing is worse than a button
- * that says it is not connected — the first loses a customer who thinks they
- * bought something, the second loses nobody.
+ * `checkout` posts to /api/checkout, a Vercel serverless function that
+ * creates a Stripe Checkout Session and hands back its URL. Card and Apple
+ * Pay both come from that one session: Stripe's hosted page shows Apple Pay
+ * as a one-tap option automatically on a supporting browser, so there is no
+ * separate native-Apple-Pay button to build or domain file to host.
  *
- * When a provider is chosen, only `checkout` and `fetchStock` need writing.
- * Everything else in the app already treats stock and orders as async facts
- * rather than constants.
+ * The endpoint itself returns `{ ok: false, reason: 'not-configured' }` when
+ * STRIPE_SECRET_KEY isn't set on Vercel, so the front end keeps its honest
+ * failure message with no code changes needed once a real key is added.
  *
- * Two provider notes for whoever wires this:
- *
- *  - **Apple Pay is not a payment provider.** It is a wallet, and it needs a
- *    processor behind it (Stripe, Shopify Payments), plus domain verification
- *    with Apple and a certificate. The button below stays hidden until
- *    `applePayAvailable()` says the visitor can actually use it, because a dead
- *    Apple Pay button at checkout is the single most trust-destroying thing on
- *    a small brand's site.
- *
- *  - **The 100-piece count must come from the seller of record**, not from a
- *    number typed into the repo. If two people buy the last piece because the
- *    page was serving a stale constant, that is a refund and a broken promise.
+ * **The 100-piece count must come from the seller of record**, not from a
+ * number typed into the repo. If two people buy the last piece because the
+ * page was serving a stale constant, that is a refund and a broken promise.
+ * See `fetchStock` below.
  */
 
 export type CheckoutResult =
@@ -46,13 +39,18 @@ export interface Line {
   notes: string
 }
 
-/** Set once a provider exists. Until then the UI shows an honest disabled state. */
-export const COMMERCE_CONFIGURED = false
-
-export async function checkout(_line: Line): Promise<CheckoutResult> {
-  if (!COMMERCE_CONFIGURED) return { ok: false, reason: 'not-configured' }
-  // Provider call goes here — create a session, return its URL.
-  return { ok: false, reason: 'failed' }
+export async function checkout(line: Line): Promise<CheckoutResult> {
+  try {
+    const res = await fetch('/api/checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(line),
+    })
+    if (!res.ok) return { ok: false, reason: 'failed' }
+    return await res.json()
+  } catch {
+    return { ok: false, reason: 'failed' }
+  }
 }
 
 /**
@@ -62,24 +60,11 @@ export async function checkout(_line: Line): Promise<CheckoutResult> {
  * Per size rather than a single total on purpose: the total is the sum, but the
  * reverse does not hold, and the select has to know which sizes are gone. A
  * provider that only reports a total cannot answer "is there an M left".
+ *
+ * Stripe has no concept of per-size inventory, so this is still a stub. Wire
+ * it to whatever tracks stock once orders are actually coming in through
+ * checkout — a spreadsheet, Stripe metadata read back out, or a real store.
  */
 export async function fetchStock(_dropNumber: string): Promise<Record<string, number> | null> {
-  if (!COMMERCE_CONFIGURED) return null
   return null
-}
-
-/**
- * Whether this visitor can actually pay with Apple Pay.
- *
- * Checks the browser first; the merchant side still has to be set up for it to
- * do anything. Both must be true before the button is shown at all.
- */
-export function applePayAvailable(): boolean {
-  if (!COMMERCE_CONFIGURED) return false
-  const w = window as unknown as { ApplePaySession?: { canMakePayments(): boolean } }
-  try {
-    return !!w.ApplePaySession?.canMakePayments()
-  } catch {
-    return false
-  }
 }
