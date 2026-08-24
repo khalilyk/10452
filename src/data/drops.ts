@@ -45,7 +45,7 @@ export interface Drop {
 export const DROPS: Drop[] = [
   {
     number: '001',
-    name: 'Receipt Tee',
+    name: "Mentally, I'm In Batroun",
     tagline: 'Hungry habibi?',
     status: 'live',
     edition: 100,
@@ -53,7 +53,7 @@ export const DROPS: Drop[] = [
     priceAud: 85,
     location: 'Batroun, Lebanon',
     story: [
-      '10452.Space is inspired by Lebanon. 10452 is the area code. This tee is a tribute to our roots, our culture and the everyday pride that comes with it.',
+      'The Mentally, I’m in Batroun Tee is a little piece of Lebanon for wherever you happen to be. Inspired by slow afternoons by the sea, plastic chairs that somehow belong everywhere, and that constant pull back home, the design pairs a hand-drawn chair with imperfect handwritten type to feel personal, nostalgic and deliberately unpolished.',
       "Made in Australia. 100% Premium Cotton. 260 GSM. Built to last. Limited drop. Once it's gone, it's gone.",
       'Wear your culture. Everywhere.',
     ],
@@ -64,7 +64,7 @@ export const DROPS: Drop[] = [
       'Back graphic, screen printed',
     ],
     sizes: ['S', 'M', 'L', 'XL', 'XXL'],
-    image: '/drops/drop001.png',
+    image: '/drops/drop001.jpg',
     artwork: null,
     releasedAt: '2026-09-01',
   },
@@ -156,6 +156,6 @@ export const ABOUT = {
     'Nothing is made until all 100 pieces are sold, so nothing is wasted. Once a drop is gone it enters the archive and we move on to the next chapter.',
   ],
   /** Portrait or still life. Null until the shoot lands. */
-  image: null as string | null,
+  image: '/drops/pieceoflebanon.jpg' as string | null,
   imageCaption: 'Batroun, Lebanon',
 }

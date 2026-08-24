@@ -37,8 +37,8 @@ export default function App() {
       <BuyPanel drop={drop} onAdd={(qty) => setCartCount((c) => c + qty)} />
       <Marquee text={PRODUCTION_LINE} invert />
       <About />
-      <NextDrop />
       <GivingBack />
+      <NextDrop />
       <ShippingBand />
       <Contact />
       <FooterMark />
