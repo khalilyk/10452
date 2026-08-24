@@ -129,7 +129,8 @@ export const GIVING = {
   charityBlurb: 'humanitarian aid and support for communities in Lebanon and Nigeria',
 }
 
-export const SHIPPING = '$15 SHIPPING WORLDWIDE'
+export const SHIPPING_AUD = 15
+export const SHIPPING = `$${SHIPPING_AUD} SHIPPING WORLDWIDE`
 
 /** The made-to-order promise, run as a band under the product. */
 export const PRODUCTION_LINE =

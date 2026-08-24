@@ -34,6 +34,16 @@ export interface Line {
   drop: Drop
   size: string
   quantity: number
+  name: string
+  email: string
+  phone: string
+  address1: string
+  address2: string
+  city: string
+  region: string
+  postcode: string
+  country: string
+  notes: string
 }
 
 /** Set once a provider exists. Until then the UI shows an honest disabled state. */
