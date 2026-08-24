@@ -2,16 +2,18 @@ import { useState } from 'react'
 import { CONTACT, sendEnquiry } from '../lib/contact.ts'
 
 /**
- * Details left, form right on black.
+ * Details left on grey, form right on paper.
  *
- * The black half carries straight on from the shipping band above it, so the
- * page ends on one continuous dark block rather than alternating twice more.
+ * Three tones down this stretch of the page rather than two: the shipping band
+ * is black, the details grey, the form paper. Black against black would have
+ * merged the band and the details into one slab, and flipping only the form
+ * would have left both halves light and the split reading as no split at all.
  */
 export function Contact() {
   return (
     <section id="contact" className="grid lg:grid-cols-2" aria-labelledby="contact-heading">
-      <div className="flex flex-col justify-center bg-cream px-5 py-14 sm:px-8 sm:py-20 lg:py-24 lg:pl-16 lg:pr-14">
-        <p className="text-[10.5px] tracking-widest text-ink/45">CONTACT</p>
+      <div className="flex flex-col justify-center bg-graphite px-5 py-14 text-white sm:px-8 sm:py-20 lg:py-24 lg:pl-16 lg:pr-14">
+        <p className="text-[10.5px] tracking-widest text-white/70">CONTACT</p>
 
         <h2
           id="contact-heading"
@@ -20,13 +22,13 @@ export function Contact() {
           SAY SOMETHING
         </h2>
 
-        <p className="mt-5 max-w-[30rem] text-[13px] leading-[1.95] text-ink/75">
+        <p className="mt-5 max-w-[30rem] text-[13px] leading-[1.95] text-white/80">
           Questions about a drop, sizing, an order, or an idea for a future
           chapter. If you know a reference we should be making, tell us — half of
           this project comes from other people's memories.
         </p>
 
-        <dl className="mt-9 max-w-[34rem] space-y-3.5 border-t border-ink/15 pt-5 text-[12.5px]">
+        <dl className="mt-9 max-w-[34rem] space-y-3.5 border-t border-white/25 pt-5 text-[12.5px]">
           <Row label="INSTAGRAM">
             <a
               href={`https://instagram.com/${CONTACT.instagram.replace('@', '')}`}
@@ -46,7 +48,7 @@ export function Contact() {
                 {CONTACT.address}
               </a>
             ) : (
-              <span className="text-ink/45">Not published yet</span>
+              <span className="text-white/65">Not published yet</span>
             )}
           </Row>
           <Row label="SHIPPING">{CONTACT.location}</Row>
@@ -61,7 +63,7 @@ export function Contact() {
 function Row({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="flex items-baseline justify-between gap-6">
-      <dt className="shrink-0 text-[10px] tracking-widest text-ink/45">{label}</dt>
+      <dt className="shrink-0 text-[10px] tracking-widest text-white/70">{label}</dt>
       <dd className="text-right">{children}</dd>
     </div>
   )
@@ -103,18 +105,18 @@ function ContactForm() {
   }
 
   return (
-    <form onSubmit={submit} className="bg-ink px-5 py-14 sm:px-8 sm:py-20 lg:py-24 lg:px-14">
+    <form onSubmit={submit} className="bg-paper px-5 py-14 sm:px-8 sm:py-20 lg:py-24 lg:px-14">
       <div className="mx-auto max-w-[30rem] space-y-4">
         <Field label="NAME" value={name} onChange={setName} autoComplete="name" />
         <Field label="EMAIL" value={email} onChange={setEmail} type="email" autoComplete="email" />
 
         <label className="block">
-          <span className="text-[10px] tracking-widest text-white/50">MESSAGE</span>
+          <span className="text-[10px] tracking-widest text-ink/50">MESSAGE</span>
           <textarea
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             rows={5}
-            className="mt-2 w-full resize-y border border-white/25 bg-transparent px-4 py-3 text-[13px] leading-relaxed text-white outline-none transition-colors placeholder:text-white/30 focus:border-white"
+            className="mt-2 w-full resize-y border border-ink/25 bg-transparent px-4 py-3 text-[13px] leading-relaxed text-ink outline-none transition-colors placeholder:text-ink/30 focus:border-ink"
             placeholder="Tell us what you're thinking."
           />
         </label>
@@ -122,13 +124,13 @@ function ContactForm() {
         <button
           type="submit"
           disabled={busy || sent}
-          className="h-[54px] w-full bg-white text-[13px] font-medium tracking-widest text-ink transition-opacity hover:opacity-85 disabled:opacity-40"
+          className="h-[54px] w-full bg-ink text-[13px] font-medium tracking-widest text-white transition-opacity hover:opacity-85 disabled:opacity-40"
         >
           {sent ? 'SENT' : busy ? 'ONE MOMENT…' : 'SEND'}
         </button>
 
         {note && (
-          <p className="text-[11.5px] leading-relaxed text-white/70" role="status">
+          <p className="text-[11.5px] leading-relaxed text-ink/70" role="status">
             {note}
           </p>
         )}
@@ -148,13 +150,13 @@ function Field({
 }) {
   return (
     <label className="block">
-      <span className="text-[10px] tracking-widest text-white/50">{label}</span>
+      <span className="text-[10px] tracking-widest text-ink/50">{label}</span>
       <input
         type={type}
         value={value}
         autoComplete={autoComplete}
         onChange={(e) => onChange(e.target.value)}
-        className="mt-2 h-[52px] w-full border border-white/25 bg-transparent px-4 text-[13px] text-white outline-none transition-colors focus:border-white"
+        className="mt-2 h-[52px] w-full border border-ink/25 bg-transparent px-4 text-[13px] text-ink outline-none transition-colors focus:border-ink"
       />
     </label>
   )

@@ -1,57 +1,31 @@
 /**
- * A full-bleed band of scrolling type.
+ * A full-bleed band carrying one line.
  *
- * The line is duplicated and the track translated by exactly half its width, so
- * the loop has no seam — the copy that leaves one side is already in position on
- * the other. `aria-hidden` on the duplicate keeps a screen reader from reading
- * the sentence twice.
+ * Static. It scrolled at first, but the sentence is a promise about how the
+ * garments are made, not decoration — a claim someone should be able to read
+ * once and be sure of. Moving type makes that harder for everyone and
+ * measurably harder for anyone who reads slowly.
  *
- * Stops under prefers-reduced-motion, where it becomes a static band.
+ * The marks either side are the only ornament, and they carry the red.
  */
 export function Marquee({
-  text, direction = 'right', seconds = 34, invert = false,
+  text, invert = false,
 }: {
   text: string
-  /** Which way the type travels. */
-  direction?: 'left' | 'right'
-  seconds?: number
   /** White on black, so the band reads as a rule between sections. */
   invert?: boolean
 }) {
-  const copies = [0, 1]
-
   return (
     <div
-      className={`relative w-full overflow-hidden py-3.5 ${
+      className={`w-full px-5 py-4 text-center sm:px-8 ${
         invert ? 'bg-ink text-white' : 'border-y border-ink/15 bg-cream'
       }`}
     >
-      <style>{`
-        @keyframes marquee-left  { from { transform: translateX(0); }    to { transform: translateX(-50%); } }
-        @keyframes marquee-right { from { transform: translateX(-50%); } to { transform: translateX(0); } }
-        @media (prefers-reduced-motion: reduce) {
-          .marquee-track { animation: none !important; transform: none !important; }
-        }
-      `}</style>
-
-      <div
-        className="marquee-track flex w-max"
-        style={{ animation: `marquee-${direction} ${seconds}s linear infinite` }}
-      >
-        {copies.map((c) => (
-          <div key={c} aria-hidden={c === 1} className="flex shrink-0">
-            {Array.from({ length: 3 }, (_, i) => (
-              <span
-                key={i}
-                className="whitespace-nowrap px-6 text-[11px] font-medium uppercase tracking-widest sm:text-[12.5px]"
-              >
-                {text}
-                <span className="px-6 text-liban-red">✦</span>
-              </span>
-            ))}
-          </div>
-        ))}
-      </div>
+      <p className="text-[10.5px] font-medium uppercase leading-relaxed tracking-widest sm:text-[12px]">
+        <span aria-hidden className="mr-4 text-liban-red">✦</span>
+        {text}
+        <span aria-hidden className="ml-4 text-liban-red">✦</span>
+      </p>
     </div>
   )
 }

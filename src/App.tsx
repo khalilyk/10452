@@ -31,7 +31,7 @@ export default function App() {
       <Header dropNumber={drop.number} cartCount={cartCount} />
       <Hero drop={drop} />
       <BuyPanel drop={drop} onAdd={(qty) => setCartCount((c) => c + qty)} />
-      <Marquee text={PRODUCTION_LINE} direction="right" invert />
+      <Marquee text={PRODUCTION_LINE} invert />
       <About />
       <ShippingBand />
       <Contact />
