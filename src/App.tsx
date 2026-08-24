@@ -4,6 +4,7 @@ import { Hero } from './components/Hero.tsx'
 import { BuyPanel } from './components/BuyPanel.tsx'
 import { About } from './components/About.tsx'
 import { ShippingBand } from './components/ShippingBand.tsx'
+import { NextDrop } from './components/NextDrop.tsx'
 import { Contact } from './components/Contact.tsx'
 import { Marquee } from './components/Marquee.tsx'
 import { Footer } from './components/Footer.tsx'
@@ -33,6 +34,7 @@ export default function App() {
       <BuyPanel drop={drop} onAdd={(qty) => setCartCount((c) => c + qty)} />
       <Marquee text={PRODUCTION_LINE} invert />
       <About />
+      <NextDrop />
       <ShippingBand />
       <Contact />
       <Footer />

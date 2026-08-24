@@ -23,7 +23,10 @@ export interface Drop {
   status: DropStatus
   /** Total ever made. Never more than this, never again. */
   edition: number
-  /** Pieces left. Placeholder until the commerce backend supplies it. */
+  /**
+   * Pieces left in total. Placeholder until the commerce backend supplies it.
+   * The per-size split is derived from `edition` — see `sizeAllocation`.
+   */
   remaining: number
   priceAud: number
   /** Where the campaign was shot — the brief ties each drop to a place. */
@@ -67,6 +70,33 @@ export const DROPS: Drop[] = [
   },
 ]
 
+/**
+ * The 100 split evenly across the sizes.
+ *
+ * Derived rather than typed out, so it stays correct if the edition or the size
+ * run changes. When the edition does not divide evenly the remainder goes to the
+ * middle sizes first — those sell out first, and dropping the spare piece on the
+ * end of the alphabet would leave XXL with stock nobody wants.
+ */
+export function sizeAllocation(drop: Drop): Array<{ size: string; stock: number }> {
+  const n = drop.sizes.length
+  const base = Math.floor(drop.edition / n)
+  const spare = drop.edition - base * n
+
+  // Middle outward: for S M L XL XXL that is L, XL, M, XXL, S.
+  const mid = Math.floor((n - 1) / 2)
+  const order = [...drop.sizes.keys()].sort(
+    (a, b) => Math.abs(a - mid) - Math.abs(b - mid) || a - b,
+  )
+  const extra = new Set(order.slice(0, spare))
+
+  return drop.sizes.map((size, i) => ({ size, stock: base + (extra.has(i) ? 1 : 0) }))
+}
+
+/** Initial per-size stock, keyed by size. */
+export const initialStock = (drop: Drop): Record<string, number> =>
+  Object.fromEntries(sizeAllocation(drop).map(({ size, stock }) => [size, stock]))
+
 export const liveDrop = (): Drop | undefined => DROPS.find((d) => d.status === 'live')
 export const archive = (): Drop[] => DROPS.filter((d) => d.status === 'sold-out')
 
@@ -77,6 +107,19 @@ export const MANIFESTO = {
   pieces: 100,
   line: '12 DROPS. 12 MONTHS. 100 PIECES EACH. NO REPEATS.',
   sub: 'A new piece of Lebanon every month.',
+}
+
+/**
+ * The next chapter, teased ahead of the reveal.
+ *
+ * Deliberately thin — a number, a line, a month. Nothing here claims to be the
+ * drop itself: no image, no name, no price, because none of those exist yet.
+ * Update this by hand when Drop 002 is actually locked in.
+ */
+export const NEXT_DROP = {
+  number: '002',
+  teaser: 'The next chapter is already being cut. Same city, same rules — one piece, one hundred pieces, no repeats.',
+  revealsAt: 'OCTOBER 2026',
 }
 
 export const SHIPPING = '$15 SHIPPING WORLDWIDE'

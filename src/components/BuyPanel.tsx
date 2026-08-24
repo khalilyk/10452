@@ -1,6 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import type { Drop } from '../data/drops.ts'
-import { checkout, fetchRemaining } from '../lib/commerce.ts'
+import { initialStock } from '../data/drops.ts'
+import { checkout, fetchStock } from '../lib/commerce.ts'
+import { SplitFlap } from './SplitFlap.tsx'
 
 /**
  * The drop story, the count, and the only two buttons on the site.
@@ -12,20 +14,29 @@ import { checkout, fetchRemaining } from '../lib/commerce.ts'
 export function BuyPanel({ drop, onAdd }: { drop: Drop; onAdd: (qty: number) => void }) {
   const [size, setSize] = useState('')
   const [quantity, setQuantity] = useState(0)
-  const [remaining, setRemaining] = useState(drop.remaining)
+  const [stock, setStock] = useState(() => initialStock(drop))
   const [error, setError] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
 
   useEffect(() => {
     let cancelled = false
-    fetchRemaining(drop.number).then((n) => {
-      if (cancelled || n === null) return
-      setRemaining(n)
+    fetchStock(drop.number).then((live) => {
+      if (cancelled || live === null) return
+      setStock(live)
     })
     return () => { cancelled = true }
   }, [drop.number])
 
+  // The headline count is the sum of the sizes, never a separate figure — two
+  // numbers that can disagree is how a shop oversells its last piece.
+  const remaining = useMemo(
+    () => Object.values(stock).reduce((a, b) => a + b, 0),
+    [stock],
+  )
   const soldOut = remaining <= 0
+
+  // Once a size is chosen, that size's stock caps the order, not the total.
+  const cap = size ? (stock[size] ?? 0) : remaining
   // Only sold-out greys the buttons. Missing size is answered on click, not by
   // disabling — the design has two live buttons and it should look like it.
   const canOrder = !soldOut && !busy
@@ -34,6 +45,7 @@ export function BuyPanel({ drop, onAdd }: { drop: Drop; onAdd: (qty: number) => 
     setError(null)
     if (!size) { setError('Choose a size first.'); return }
     if (!quantity) { setError('Choose a quantity.'); return }
+    if (quantity > cap) { setError(`Only ${cap} left in ${size}.`); return }
     setBusy(true)
     const result = await checkout({ drop, size, quantity })
     setBusy(false)
@@ -75,9 +87,15 @@ export function BuyPanel({ drop, onAdd }: { drop: Drop; onAdd: (qty: number) => 
           <Field
             label="SELECT SIZE"
             value={size}
-            onChange={setSize}
+            onChange={(v) => { setSize(v); setQuantity(0) }}
             disabled={soldOut}
-            options={drop.sizes.map((s) => ({ value: s, label: s }))}
+            options={drop.sizes.map((s) => ({
+              value: s,
+              // The run is split evenly, so the interesting number is not how
+              // many were made but how many of *your* size are left.
+              label: stock[s] > 0 ? `${s} — ${stock[s]} LEFT` : `${s} — SOLD OUT`,
+              disabled: stock[s] <= 0,
+            }))}
           />
           <Field
             label="QUANTITY"
@@ -85,7 +103,7 @@ export function BuyPanel({ drop, onAdd }: { drop: Drop; onAdd: (qty: number) => 
             onChange={(v) => setQuantity(Number(v))}
             disabled={soldOut}
             options={Array.from(
-              { length: Math.max(1, Math.min(5, remaining)) },
+              { length: Math.max(1, Math.min(5, cap)) },
               (_, i) => ({ value: String(i + 1), label: String(i + 1) }),
             )}
           />
@@ -117,17 +135,27 @@ export function BuyPanel({ drop, onAdd }: { drop: Drop; onAdd: (qty: number) => 
   )
 }
 
-/** The big red number. */
+/**
+ * The count, as a split-flap board.
+ *
+ * Three tiles always, so the row does not change width as the number falls —
+ * a board has a fixed number of positions, and 9 reads as "  9", not as one
+ * lonely tile. The red is kept as a colour chip rather than as the digits:
+ * #C8102E on black is 3.3:1, which clears large-text AA and nothing else, and
+ * this number is the one thing on the page that must be unmistakable.
+ */
 function Counter({ remaining, soldOut }: { remaining: number; soldOut: boolean }) {
+  const n = soldOut ? 0 : remaining
   return (
     <div className="text-right sm:min-w-[9rem]">
-      <p
-        className={`text-[54px] font-medium leading-none tracking-tight sm:text-[70px] ${
-          soldOut ? 'text-ink/25' : 'text-liban-red'
-        }`}
-      >
-        {soldOut ? '0' : remaining}
-      </p>
+      <div className="flex justify-end">
+        <SplitFlap
+          value={String(n).padStart(3, ' ')}
+          chip
+          dim={soldOut}
+          label={soldOut ? 'Sold out' : `${remaining} pieces left`}
+        />
+      </div>
       <hr className="my-2 border-ink/20" />
       <p className="text-[13px] tracking-widest sm:text-[15px]">
         {soldOut ? 'SOLD OUT' : 'PCS LEFT'}
@@ -142,7 +170,7 @@ function Field({
   label: string
   value: string
   onChange: (v: string) => void
-  options: Array<{ value: string; label: string }>
+  options: Array<{ value: string; label: string; disabled?: boolean }>
   disabled?: boolean
 }) {
   return (
@@ -156,7 +184,7 @@ function Field({
       >
         <option value="">{label}</option>
         {options.map((o) => (
-          <option key={o.value} value={o.value}>{o.label}</option>
+          <option key={o.value} value={o.value} disabled={o.disabled}>{o.label}</option>
         ))}
       </select>
       <svg

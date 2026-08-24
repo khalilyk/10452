@@ -8,7 +8,7 @@ import type { Drop } from '../data/drops.ts'
  * that says it is not connected — the first loses a customer who thinks they
  * bought something, the second loses nobody.
  *
- * When a provider is chosen, only `checkout` and `fetchRemaining` need writing.
+ * When a provider is chosen, only `checkout` and `fetchStock` need writing.
  * Everything else in the app already treats stock and orders as async facts
  * rather than constants.
  *
@@ -46,10 +46,14 @@ export async function checkout(_line: Line): Promise<CheckoutResult> {
 }
 
 /**
- * Live stock. Returns null when there is no backend to ask, and the caller
- * falls back to the configured figure with the caveat shown.
+ * Live stock, per size. Returns null when there is no backend to ask, and the
+ * caller falls back to the even split of the edition.
+ *
+ * Per size rather than a single total on purpose: the total is the sum, but the
+ * reverse does not hold, and the select has to know which sizes are gone. A
+ * provider that only reports a total cannot answer "is there an M left".
  */
-export async function fetchRemaining(_dropNumber: string): Promise<number | null> {
+export async function fetchStock(_dropNumber: string): Promise<Record<string, number> | null> {
   if (!COMMERCE_CONFIGURED) return null
   return null
 }

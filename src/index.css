@@ -21,3 +21,72 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+/*
+ * Split-flap tiles for the remaining-pieces counter.
+ *
+ * Four layers per tile: two static halves showing where the flap is going, two
+ * animated halves showing the old character folding away. The top half of the
+ * outgoing character rotates down out of view, then the bottom half of the
+ * incoming one rotates up into place — which is the actual mechanism, and the
+ * reason a real board reads as one glyph splitting rather than two swapping.
+ */
+.flap {
+  --flap-w: 34px;
+  --flap-h: 50px;
+  --flap-size: 32px;
+  --flap-ink: #F2F1ED;
+  --flap-step: 90ms;
+}
+
+@media (min-width: 640px) {
+  .flap { --flap-w: 44px; --flap-h: 64px; --flap-size: 42px; }
+}
+
+.flap-tile {
+  position: relative;
+  width: var(--flap-w);
+  height: var(--flap-h);
+  background: #000;
+  border-radius: 3px;
+  perspective: 260px;
+  overflow: hidden;
+}
+
+.flap-half {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: calc(50% - 0.5px);
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  backface-visibility: hidden;
+}
+
+.flap-half--top    { top: 0;    align-items: flex-start; background: linear-gradient(#1D1D1D, #121212); transform-origin: bottom center; }
+.flap-half--bottom { bottom: 0; align-items: flex-end;   background: linear-gradient(#0E0E0E, #191919); transform-origin: top center; }
+
+.flap-glyph {
+  display: block;
+  height: var(--flap-h);
+  line-height: var(--flap-h);
+  font-size: var(--flap-size);
+  font-weight: 500;
+  color: var(--flap-ink);
+  letter-spacing: 0;
+}
+
+/* The bottom half clips the lower portion of the same full-height glyph. */
+.flap-half--bottom .flap-glyph { margin-top: calc(var(--flap-h) / -2); }
+
+.flap-fold { z-index: 2; }
+.flap-fold--top    { animation: flap-fold-top    calc(var(--flap-step) / 2) ease-in forwards; }
+.flap-fold--bottom { animation: flap-fold-bottom calc(var(--flap-step) / 2) ease-out calc(var(--flap-step) / 2) backwards; }
+
+@keyframes flap-fold-top    { from { transform: rotateX(0deg);   } to { transform: rotateX(-90deg); } }
+@keyframes flap-fold-bottom { from { transform: rotateX(90deg);  } to { transform: rotateX(0deg);   } }
+
+/* A solid Vestaboard colour chip: same tile, same seam, no glyph. */
+.flap-tile--chip .flap-half--top    { background: linear-gradient(#D4132F, #BE0F2B); }
+.flap-tile--chip .flap-half--bottom { background: linear-gradient(#B60E29, #C8102E); }
