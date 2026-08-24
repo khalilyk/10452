@@ -5,6 +5,7 @@ import { BuyPanel } from './components/BuyPanel.tsx'
 import { About } from './components/About.tsx'
 import { ShippingBand } from './components/ShippingBand.tsx'
 import { NextDrop } from './components/NextDrop.tsx'
+import { GivingBack } from './components/GivingBack.tsx'
 import { Contact } from './components/Contact.tsx'
 import { Marquee } from './components/Marquee.tsx'
 import { FooterMark } from './components/FooterMark.tsx'
@@ -37,6 +38,7 @@ export default function App() {
       <Marquee text={PRODUCTION_LINE} invert />
       <About />
       <NextDrop />
+      <GivingBack />
       <ShippingBand />
       <Contact />
       <FooterMark />

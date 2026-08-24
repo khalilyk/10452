@@ -64,7 +64,7 @@ export const DROPS: Drop[] = [
       'Back graphic, screen printed',
     ],
     sizes: ['S', 'M', 'L', 'XL', 'XXL'],
-    image: null,
+    image: '/drops/drop001.png',
     artwork: null,
     releasedAt: '2026-09-01',
   },
@@ -120,6 +120,19 @@ export const NEXT_DROP = {
   number: '002',
   teaser: 'The next chapter is already being cut. Same city, same rules — one piece, one hundred pieces, no repeats.',
   revealsAt: 'OCTOBER 2026',
+}
+
+/**
+ * The giving-back line.
+ *
+ * The charity itself is not named here on purpose — no partner has actually
+ * been confirmed yet, and printing a specific name on a live page before the
+ * relationship exists would be a false claim, not a placeholder. Replace
+ * `charity` the moment a real partner is locked in.
+ */
+export const GIVING = {
+  amount: '$5',
+  charity: 'a Lebanese relief charity — partner to be announced',
 }
 
 export const SHIPPING = '$15 SHIPPING WORLDWIDE'
