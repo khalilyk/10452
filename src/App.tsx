@@ -32,6 +32,7 @@ export default function App() {
     <div className="min-h-screen bg-cream">
       <Header dropNumber={drop.number} cartCount={cartCount} />
       <Hero drop={drop} />
+      <Marquee text={PRODUCTION_LINE} invert />
       <BuyPanel drop={drop} onAdd={(qty) => setCartCount((c) => c + qty)} />
       <Marquee text={PRODUCTION_LINE} invert />
       <About />
