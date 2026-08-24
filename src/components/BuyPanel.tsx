@@ -73,6 +73,10 @@ export function BuyPanel({ drop, onAdd }: { drop: Drop; onAdd: (qty: number) => 
           </p>
         </div>
 
+        <p className="mt-2 text-[15px] font-medium tracking-widest sm:text-[17px]">
+          ${drop.priceAud} AUD
+        </p>
+
         <div className="mt-7 grid gap-8 sm:grid-cols-[1fr_auto] sm:gap-12">
           <div className="max-w-xl space-y-4 text-[12.5px] leading-[1.9] sm:text-[13.5px]">
             {drop.story.map((p, i) => <p key={i}>{p}</p>)}

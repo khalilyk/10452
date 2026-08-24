@@ -50,7 +50,7 @@ export const DROPS: Drop[] = [
     status: 'live',
     edition: 100,
     remaining: 100,
-    priceAud: 89,
+    priceAud: 85,
     location: 'Batroun, Lebanon',
     story: [
       '10452.Space is inspired by Lebanon. 10452 is the area code. This tee is a tribute to our roots, our culture and the everyday pride that comes with it.',
