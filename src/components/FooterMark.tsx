@@ -11,7 +11,7 @@ export function FooterMark() {
         src="/brand/favicon.png"
         alt=""
         aria-hidden
-        className="mx-auto h-14 w-auto opacity-80 sm:h-16"
+        className="mx-auto h-[84px] w-auto opacity-80 sm:h-24"
       />
     </div>
   )
