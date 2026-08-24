@@ -59,6 +59,20 @@ Append to `DROPS` in `src/data/drops.ts`, set the previous one to `sold-out`,
 and the homepage becomes the new chapter. Sold-out drops fall into the archive
 automatically. There is no catalogue by design: one drop, one opportunity.
 
+## The contact form
+
+Same arrangement as checkout: nothing is transmitted from the page. Set
+`CONTACT.address` in `src/lib/contact.ts` and it composes a message in the
+sender's own mail client, which they review and send. Point `CONTACT.endpoint`
+at a form service instead and the fetch is already written.
+
+Until one of those is set, submitting says so plainly. A form that swallows a
+message and thanks you for it is worse than one that admits it has nowhere to
+send it.
+
+`address` is left empty on purpose — publishing an inbox on a public page
+invites the obvious, and it is not mine to expose.
+
 ## Design notes
 
 - One monospace face throughout (IBM Plex Mono) — the brief asks for "an old

@@ -2,8 +2,12 @@ import { useState } from 'react'
 import { Header } from './components/Header.tsx'
 import { Hero } from './components/Hero.tsx'
 import { BuyPanel } from './components/BuyPanel.tsx'
+import { About } from './components/About.tsx'
+import { ShippingBand } from './components/ShippingBand.tsx'
+import { Contact } from './components/Contact.tsx'
+import { Marquee } from './components/Marquee.tsx'
 import { Footer } from './components/Footer.tsx'
-import { liveDrop, MANIFESTO } from './data/drops.ts'
+import { liveDrop, MANIFESTO, PRODUCTION_LINE } from './data/drops.ts'
 
 export default function App() {
   const [cartCount, setCartCount] = useState(0)
@@ -27,6 +31,10 @@ export default function App() {
       <Header dropNumber={drop.number} cartCount={cartCount} />
       <Hero drop={drop} />
       <BuyPanel drop={drop} onAdd={(qty) => setCartCount((c) => c + qty)} />
+      <Marquee text={PRODUCTION_LINE} direction="right" invert />
+      <About />
+      <ShippingBand />
+      <Contact />
       <Footer />
     </div>
   )

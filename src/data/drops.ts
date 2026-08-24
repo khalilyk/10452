@@ -80,3 +80,26 @@ export const MANIFESTO = {
 }
 
 export const SHIPPING = '$15 SHIPPING WORLDWIDE'
+
+/** The made-to-order promise, run as a band under the product. */
+export const PRODUCTION_LINE =
+  'Production begins once all 100 pieces are claimed. No overproduction. No repeats.'
+
+/**
+ * The about copy, condensed from the brief.
+ *
+ * Kept here rather than in the component so it can be edited without touching
+ * layout — this is the paragraph most likely to be rewritten as the brand finds
+ * its voice.
+ */
+export const ABOUT = {
+  heading: 'A NEW PIECE OF LEBANON, EVERY MONTH',
+  body: [
+    '10452.SPACE is a limited-edition Lebanese project built around culture, nostalgia, humour and the everyday things that instantly feel like home. The name is Lebanon’s international dialling code — something every Lebanese person abroad already knows by heart.',
+    'This is not souvenir merchandise. Each drop takes one piece of Lebanese life — a plastic chair, a late-night table, a taxi, a balcony, an expression, a packet you grew up with — and reinterprets it. Designs should stand up on their own; if you know the reference, you get something extra.',
+    'Nothing is made until all 100 pieces are sold, so nothing is wasted. Once a drop is gone it enters the archive and we move on to the next chapter.',
+  ],
+  /** Portrait or still life. Null until the shoot lands. */
+  image: null as string | null,
+  imageCaption: 'Batroun, Lebanon',
+}
