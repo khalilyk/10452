@@ -54,12 +54,13 @@ export const DROPS: Drop[] = [
     location: 'Batroun, Lebanon',
     story: [
       'The Mentally, I’m in Batroun Tee is a little piece of Lebanon for wherever you happen to be. Inspired by slow afternoons by the sea, plastic chairs that somehow belong everywhere, and that constant pull back home, the design pairs a hand-drawn chair with imperfect handwritten type to feel personal, nostalgic and deliberately unpolished.',
-      "Made in Australia. 100% Premium Cotton. 260 GSM. Built to last. Limited drop. Once it's gone, it's gone.",
+      "Printed in Australia using a premium AS Colour staple tee, crafted from 180 GSM 100% combed cotton. Featuring neck ribbing, side seams and double needle hems. Built to last. Limited drop. Once it's gone, it's gone.",
       'Wear your culture. Everywhere.',
     ],
     spec: [
-      'Made in Australia',
-      '100% premium cotton, 260 GSM',
+      'Printed in Australia',
+      'AS Colour staple tee, 180 GSM, 100% combed cotton',
+      'Neck ribbing, side seams, double needle hems',
       'Oversized, relaxed fit',
       'Back graphic, screen printed',
     ],
