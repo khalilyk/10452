@@ -26,11 +26,19 @@ export function GivingBack() {
       <div aria-hidden className="absolute inset-0 bg-liban-green/85" />
 
       <div className="relative flex items-center justify-center px-5 py-14 sm:py-20 lg:py-28">
-        <img
-          src="/charity/wedeservelogo_footer.png"
-          alt="We Deserve Better Foundation"
-          className="h-32 w-auto sm:h-40 lg:h-48"
-        />
+        <a
+          href={GIVING.charityUrl}
+          target="_blank"
+          rel="noreferrer noopener"
+          aria-label="We Deserve Better Foundation (opens in a new tab)"
+          className="transition-opacity hover:opacity-80"
+        >
+          <img
+            src="/charity/wedeservelogo_footer.png"
+            alt=""
+            className="h-32 w-auto sm:h-40 lg:h-48"
+          />
+        </a>
       </div>
 
       <div className="relative flex flex-col justify-center px-5 pb-16 text-center sm:px-8 sm:pb-20 lg:py-28 lg:pl-4 lg:pr-16 lg:text-left">
@@ -44,6 +52,15 @@ export function GivingBack() {
         <p className="mx-auto mt-4 max-w-sm text-[12px] leading-relaxed tracking-wide text-white/85 lg:mx-0">
           Goes toward {GIVING.charity}: {GIVING.charityBlurb}.
         </p>
+
+        <a
+          href={GIVING.charityUrl}
+          target="_blank"
+          rel="noreferrer noopener"
+          className="mt-7 inline-flex h-[48px] w-fit items-center justify-center self-center border border-white/60 px-7 text-[11px] font-medium tracking-widest text-white transition-colors hover:border-white lg:self-start"
+        >
+          CHECK THEM OUT
+        </a>
       </div>
     </section>
   )

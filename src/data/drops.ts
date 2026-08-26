@@ -136,6 +136,7 @@ export const GIVING = {
   amount: '$5',
   charity: 'the We Deserve Better Foundation',
   charityBlurb: 'humanitarian aid and support for communities in Lebanon and Nigeria',
+  charityUrl: 'https://wedeservebetterfoundation.org/',
 }
 
 export const SHIPPING_AUD = 15
