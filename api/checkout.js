@@ -45,7 +45,7 @@ export default async function handler(req, res) {
           price_data: {
             currency: 'aud',
             unit_amount: Math.round(drop.priceAud * 100),
-            product_data: { name: `${drop.name} — ${size}` },
+            product_data: { name: `${drop.name} (${size})` },
           },
           quantity,
         },

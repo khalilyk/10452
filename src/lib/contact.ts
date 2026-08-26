@@ -1,13 +1,20 @@
 /**
  * Contact, behind the same seam as checkout.
  *
- * There is no server, so the form hands off rather than posting. Set an address
- * and it composes a message in the sender's own mail client, which they see and
- * send themselves — nothing is transmitted from the page.
+ * Three ways this can actually reach someone, tried in order:
  *
- * `address` is deliberately empty. Publishing an inbox on a public page invites
- * the obvious, and it is not mine to expose. Fill it in, or point `endpoint` at
- * a form service (Formspree and the like) and write the fetch below.
+ *  1. `/api/submit` — stores the message in Vercel KV, where it shows up in
+ *     /admin's Submissions tab. This is the one that "just works" once a KV
+ *     store is attached to the Vercel project; nothing else to configure.
+ *  2. `endpoint` — a form service like Formspree, if you'd rather it land in
+ *     an inbox than in the admin panel.
+ *  3. `address` — composes a message in the visitor's own mail client, which
+ *     they see and send themselves. Deliberately empty by default:
+ *     publishing an inbox on a public page invites the obvious, and it is
+ *     not mine to expose.
+ *
+ * If none of the three are configured, the form says so rather than
+ * pretending to have sent something into the void.
  */
 export const CONTACT = {
   address: '' as string,
@@ -17,7 +24,7 @@ export const CONTACT = {
 }
 
 export type SendResult =
-  | { ok: true; via: 'mail' | 'endpoint' }
+  | { ok: true; via: 'store' | 'endpoint' | 'mail' }
   | { ok: false; reason: 'not-configured' | 'failed' }
 
 export interface Enquiry {
@@ -27,6 +34,18 @@ export interface Enquiry {
 }
 
 export async function sendEnquiry(enquiry: Enquiry): Promise<SendResult> {
+  try {
+    const res = await fetch('/api/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(enquiry),
+    })
+    const body = await res.json().catch(() => null)
+    if (body?.ok) return { ok: true, via: 'store' }
+  } catch {
+    // Falls through to endpoint/mail below.
+  }
+
   if (CONTACT.endpoint) {
     try {
       const res = await fetch(CONTACT.endpoint, {
