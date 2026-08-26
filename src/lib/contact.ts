@@ -13,7 +13,7 @@ export const CONTACT = {
   address: '' as string,
   endpoint: '' as string,
   instagram: '@10452.space',
-  location: 'Made in Australia · Shipped worldwide',
+  location: 'Printed in Australia · Shipped worldwide',
 }
 
 export type SendResult =
