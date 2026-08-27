@@ -1,15 +1,17 @@
 /**
- * Thin wrapper over Vercel KV's REST API (Upstash-compatible), used only for
- * storing contact-form submissions.
+ * Thin wrapper over Vercel KV's REST API (Upstash-compatible) — submissions
+ * (a list) and site content (a single JSON blob) both live here.
  *
- * Plain fetch rather than the @vercel/kv SDK: it's two HTTP calls, and pulling
- * in a client library for two calls is the kind of dependency that outlives
- * its reason for being there. KV_REST_API_URL / KV_REST_API_TOKEN are
- * injected automatically once a KV store is attached to the Vercel project —
- * nothing to configure by hand beyond that.
+ * Plain fetch rather than the @vercel/kv SDK: it's a handful of HTTP calls,
+ * and pulling in a client library for that is the kind of dependency that
+ * outlives its reason for being there. KV_REST_API_URL / KV_REST_API_TOKEN
+ * are injected automatically once a KV store is attached to the Vercel
+ * project — nothing to configure by hand beyond that.
  */
 
 const SUBMISSIONS_KEY = 'submissions'
+const CONTENT_KEY = 'site-content'
+const PASSWORD_HASH_KEY = 'admin-password-hash'
 
 export function isKvConfigured() {
   return !!(process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN)
@@ -33,4 +35,21 @@ export async function pushSubmission(entry) {
 export async function listSubmissions() {
   const rows = await kv(`lrange/${SUBMISSIONS_KEY}/0/199`)
   return (rows || []).map((row) => JSON.parse(row))
+}
+
+export async function getContent() {
+  const raw = await kv(`get/${CONTENT_KEY}`)
+  return raw ? JSON.parse(raw) : null
+}
+
+export async function setContent(content) {
+  await kv(`set/${CONTENT_KEY}/${encodeURIComponent(JSON.stringify(content))}`)
+}
+
+export async function getPasswordHash() {
+  return kv(`get/${PASSWORD_HASH_KEY}`)
+}
+
+export async function setPasswordHash(hash) {
+  await kv(`set/${PASSWORD_HASH_KEY}/${hash}`)
 }

@@ -1,4 +1,4 @@
-import { ABOUT, MANIFESTO } from '../data/drops.ts'
+import { useContent } from '../content/ContentContext.tsx'
 
 /**
  * The brand, in one screen.
@@ -8,6 +8,7 @@ import { ABOUT, MANIFESTO } from '../data/drops.ts'
  * image is not.
  */
 export function About() {
+  const { about, manifesto } = useContent()
   return (
     <section
       id="about"
@@ -24,30 +25,30 @@ export function About() {
           id="about-heading"
           className="mt-3 max-w-[34rem] text-[24px] font-medium leading-[1.25] tracking-[0.06em] sm:text-[30px]"
         >
-          {ABOUT.heading}
+          {about.heading}
         </h2>
 
         <div className="mt-6 max-w-[34rem] space-y-4 text-[13px] leading-[1.95] sm:text-[13.5px]">
-          {ABOUT.body.map((p, i) => <p key={i}>{p}</p>)}
+          {about.body.map((p, i) => <p key={i}>{p}</p>)}
         </div>
 
         {/* The promise, set as a rule of figures rather than a sentence. */}
         <dl className="mt-10 grid max-w-[34rem] grid-cols-3 border-t border-ink/15 pt-5">
-          <Figure value={String(MANIFESTO.drops)} label="DROPS" />
-          <Figure value={String(MANIFESTO.pieces)} label="PIECES EACH" />
+          <Figure value={String(manifesto.drops)} label="DROPS" />
+          <Figure value={String(manifesto.pieces)} label="PIECES EACH" />
           <Figure value="0" label="REPEATS" />
         </dl>
       </div>
 
       <div className="order-1 lg:order-2">
-        {ABOUT.image ? (
+        {about.image ? (
           <img
-            src={ABOUT.image}
-            alt={ABOUT.imageCaption}
+            src={about.image}
+            alt={about.imageCaption}
             className="h-full min-h-[18rem] w-full object-cover"
           />
         ) : (
-          <ImagePending caption={ABOUT.imageCaption} />
+          <ImagePending caption={about.imageCaption} />
         )}
       </div>
     </section>

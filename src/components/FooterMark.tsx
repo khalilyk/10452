@@ -1,3 +1,5 @@
+import { useContent } from '../content/ContentContext.tsx'
+
 /**
  * The chair, alone, before the copyright line.
  *
@@ -7,11 +9,12 @@
  * everyone needs, which is why it is a hover tooltip rather than visible copy.
  */
 export function FooterMark() {
+  const { brand } = useContent()
   return (
     <div className="border-t border-ink/10 bg-cream px-5 py-10 sm:py-14">
       <div className="group relative mx-auto w-fit">
         <img
-          src="/brand/favicon.png"
+          src={brand.faviconUrl}
           alt=""
           aria-hidden
           className="h-[84px] w-auto opacity-80 sm:h-24"

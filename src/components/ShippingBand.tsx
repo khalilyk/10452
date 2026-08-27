@@ -1,4 +1,4 @@
-import { SHIPPING } from '../data/drops.ts'
+import { useContent } from '../content/ContentContext.tsx'
 
 /**
  * Worldwide shipping, full bleed.
@@ -16,6 +16,7 @@ import { SHIPPING } from '../data/drops.ts'
 const MERIDIANS = 6
 
 export function ShippingBand() {
+  const { shippingAud } = useContent()
   return (
     <section className="relative overflow-hidden bg-ink" aria-labelledby="shipping-heading">
       <style>{`
@@ -38,7 +39,7 @@ export function ShippingBand() {
           id="shipping-heading"
           className="text-[26px] font-medium tracking-[0.14em] text-white sm:text-[38px]"
         >
-          {SHIPPING}
+          ${shippingAud} SHIPPING WORLDWIDE
         </h2>
         <p className="max-w-sm text-[12px] leading-relaxed tracking-wide text-white/60">
           Wherever you ended up. Flat rate, every country, no exceptions.

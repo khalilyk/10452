@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { fetchSession } from './adminApi.ts'
 import { AdminLogin } from './AdminLogin.tsx'
 import { AdminShell } from './AdminShell.tsx'
+import { ContentProvider } from '../content/ContentContext.tsx'
 
 type Status = 'checking' | 'not-configured' | 'signed-out' | 'signed-in'
 
@@ -46,5 +47,9 @@ export function AdminApp() {
     return <AdminLogin onSignedIn={checkSession} />
   }
 
-  return <AdminShell onSignedOut={() => setStatus('signed-out')} />
+  return (
+    <ContentProvider>
+      <AdminShell onSignedOut={() => setStatus('signed-out')} />
+    </ContentProvider>
+  )
 }

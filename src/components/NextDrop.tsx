@@ -1,4 +1,4 @@
-import { NEXT_DROP } from '../data/drops.ts'
+import { useContent } from '../content/ContentContext.tsx'
 
 /**
  * The next chapter, teased ahead of the reveal.
@@ -13,6 +13,7 @@ import { NEXT_DROP } from '../data/drops.ts'
  * tease rather than a reveal.
  */
 export function NextDrop() {
+  const { nextDrop } = useContent()
   return (
     <section className="grid bg-cream lg:grid-cols-2" aria-labelledby="next-drop-heading">
       <div className="order-2 flex flex-col justify-center px-5 py-16 sm:px-8 sm:py-20 lg:py-24 lg:pl-14 lg:pr-16">
@@ -22,15 +23,15 @@ export function NextDrop() {
           id="next-drop-heading"
           className="mt-3 text-[24px] font-medium leading-[1.25] tracking-[0.06em] sm:text-[30px]"
         >
-          DROP {NEXT_DROP.number}
+          DROP {nextDrop.number}
         </h2>
 
         <p className="mt-5 max-w-[30rem] text-[13px] leading-[1.95] text-ink/70">
-          {NEXT_DROP.teaser}
+          {nextDrop.teaser}
         </p>
 
         <p className="mt-7 text-[11px] tracking-widest text-liban-red">
-          REVEALS {NEXT_DROP.revealsAt}
+          REVEALS {nextDrop.revealsAt}
         </p>
       </div>
 
@@ -48,7 +49,7 @@ export function NextDrop() {
             aria-hidden
             className="text-[96px] font-medium leading-none tracking-tight text-white/10 sm:text-[140px]"
           >
-            {NEXT_DROP.number}
+            {nextDrop.number}
           </span>
           <span className="text-[10px] tracking-widest text-white/40">CAMPAIGN LOCKED</span>
         </div>

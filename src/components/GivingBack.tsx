@@ -1,4 +1,4 @@
-import { GIVING } from '../data/drops.ts'
+import { useContent } from '../content/ContentContext.tsx'
 
 /**
  * The giving-back promise, flag green over the Cedars.
@@ -15,6 +15,7 @@ import { GIVING } from '../data/drops.ts'
  * before its text on mobile.
  */
 export function GivingBack() {
+  const { giving } = useContent()
   return (
     <section className="relative grid overflow-hidden lg:grid-cols-2" aria-labelledby="giving-heading">
       <img
@@ -27,7 +28,7 @@ export function GivingBack() {
 
       <div className="relative flex items-center justify-center px-5 py-14 sm:py-20 lg:py-28">
         <a
-          href={GIVING.charityUrl}
+          href={giving.charityUrl}
           target="_blank"
           rel="noreferrer noopener"
           aria-label="We Deserve Better Foundation (opens in a new tab)"
@@ -47,14 +48,14 @@ export function GivingBack() {
           id="giving-heading"
           className="mt-3 text-[26px] font-medium tracking-[0.14em] text-white sm:text-[38px]"
         >
-          {GIVING.amount} FROM EVERY SALE
+          {giving.amount} FROM EVERY SALE
         </h2>
         <p className="mx-auto mt-4 max-w-sm text-[12px] leading-relaxed tracking-wide text-white/85 lg:mx-0">
-          Goes toward {GIVING.charity}: {GIVING.charityBlurb}.
+          Goes toward {giving.charity}: {giving.charityBlurb}.
         </p>
 
         <a
-          href={GIVING.charityUrl}
+          href={giving.charityUrl}
           target="_blank"
           rel="noreferrer noopener"
           className="mt-7 inline-flex h-[48px] w-fit items-center justify-center self-center border border-white/60 px-7 text-[11px] font-medium tracking-widest text-white transition-colors hover:border-white lg:self-start"

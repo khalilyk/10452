@@ -1,5 +1,5 @@
 import { Logo } from './Logo.tsx'
-import { SHIPPING } from '../data/drops.ts'
+import { useContent } from '../content/ContentContext.tsx'
 
 /**
  * Announcement bar and header.
@@ -9,10 +9,11 @@ import { SHIPPING } from '../data/drops.ts'
  * are in.
  */
 export function Header({ dropNumber, cartCount }: { dropNumber: string; cartCount: number }) {
+  const { shippingAud } = useContent()
   return (
     <header>
       <div className="bg-ink py-2.5 text-center text-[11px] font-medium tracking-widest text-white sm:text-[12px]">
-        {SHIPPING}
+        ${shippingAud} SHIPPING WORLDWIDE
       </div>
 
       <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-4 px-5 py-4 sm:px-8 sm:py-5">

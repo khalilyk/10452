@@ -3,13 +3,19 @@ import { logout } from './adminApi.ts'
 import { OverviewPage } from './OverviewPage.tsx'
 import { StockPage } from './StockPage.tsx'
 import { SubmissionsPage } from './SubmissionsPage.tsx'
+import { ContentPage } from './ContentPage.tsx'
+import { LogosPage } from './LogosPage.tsx'
+import { SeoPage } from './SeoPage.tsx'
 
-type Section = 'overview' | 'stock' | 'submissions'
+type Section = 'overview' | 'stock' | 'submissions' | 'content' | 'logos' | 'seo'
 
 const SECTIONS: Array<{ id: Section; label: string }> = [
   { id: 'overview', label: 'OVERVIEW' },
   { id: 'stock', label: 'STOCK TAKE' },
   { id: 'submissions', label: 'SUBMISSIONS' },
+  { id: 'content', label: 'PAGE EDITOR' },
+  { id: 'logos', label: 'LOGOS' },
+  { id: 'seo', label: 'SEO' },
 ]
 
 function sectionFromHash(): Section {
@@ -74,6 +80,9 @@ export function AdminShell({ onSignedOut }: { onSignedOut: () => void }) {
         {section === 'overview' && <OverviewPage />}
         {section === 'stock' && <StockPage />}
         {section === 'submissions' && <SubmissionsPage />}
+        {section === 'content' && <ContentPage />}
+        {section === 'logos' && <LogosPage />}
+        {section === 'seo' && <SeoPage />}
       </main>
     </div>
   )

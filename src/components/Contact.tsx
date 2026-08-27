@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { CONTACT, sendEnquiry } from '../lib/contact.ts'
+import { sendEnquiry } from '../lib/contact.ts'
+import { useContent } from '../content/ContentContext.tsx'
 
 /**
  * Details left on white, form right on paper.
@@ -9,6 +10,7 @@ import { CONTACT, sendEnquiry } from '../lib/contact.ts'
  * this stretch, so the split below it can stay quiet.
  */
 export function Contact() {
+  const { contact } = useContent()
   return (
     <section id="contact" className="grid lg:grid-cols-2" aria-labelledby="contact-heading">
       <div className="flex flex-col justify-center bg-white px-5 py-14 text-ink sm:px-8 sm:py-20 lg:py-24 lg:pl-16 lg:pr-14">
@@ -30,31 +32,31 @@ export function Contact() {
         <dl className="mt-9 max-w-[34rem] space-y-3.5 border-t border-ink/15 pt-5 text-[12.5px]">
           <Row label="INSTAGRAM">
             <a
-              href={`https://instagram.com/${CONTACT.instagram.replace('@', '')}`}
+              href={`https://instagram.com/${contact.instagram.replace('@', '')}`}
               target="_blank"
               rel="noreferrer noopener"
               className="underline underline-offset-4 transition-opacity hover:opacity-60"
             >
-              {CONTACT.instagram}
+              {contact.instagram}
             </a>
           </Row>
           <Row label="EMAIL">
-            {CONTACT.address ? (
+            {contact.address ? (
               <a
-                href={`mailto:${CONTACT.address}`}
+                href={`mailto:${contact.address}`}
                 className="underline underline-offset-4 transition-opacity hover:opacity-60"
               >
-                {CONTACT.address}
+                {contact.address}
               </a>
             ) : (
               <span className="text-ink/60">Not published yet</span>
             )}
           </Row>
-          <Row label="SHIPPING">{CONTACT.location}</Row>
+          <Row label="SHIPPING">{contact.location}</Row>
         </dl>
       </div>
 
-      <ContactForm />
+      <ContactForm contact={contact} />
     </section>
   )
 }
@@ -68,7 +70,7 @@ function Row({ label, children }: { label: string; children: React.ReactNode }) 
   )
 }
 
-function ContactForm() {
+function ContactForm({ contact }: { contact: { address: string; endpoint: string } }) {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
@@ -82,7 +84,7 @@ function ContactForm() {
 
     if (!message.trim()) { setNote('Write a message first.'); return }
     setBusy(true)
-    const result = await sendEnquiry({ name, email, message })
+    const result = await sendEnquiry({ name, email, message }, contact)
     setBusy(false)
 
     if (result.ok) {

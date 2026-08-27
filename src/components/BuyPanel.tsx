@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { Drop } from '../data/drops.ts'
-import { closesAt, initialStock, SHIPPING_AUD } from '../data/drops.ts'
+import { closesAt, initialStock } from '../data/drops.ts'
 import { checkout, fetchStock } from '../lib/commerce.ts'
 import { DropTimer } from './DropTimer.tsx'
+import { useContent } from '../content/ContentContext.tsx'
 import { SplitFlap } from './SplitFlap.tsx'
 
 /**
@@ -13,6 +14,7 @@ import { SplitFlap } from './SplitFlap.tsx'
  * visible caveat when it does not. It is never simply asserted.
  */
 export function BuyPanel({ drop, onAdd }: { drop: Drop; onAdd: (qty: number) => void }) {
+  const { shippingAud } = useContent()
   const [size, setSize] = useState('')
   const [quantity, setQuantity] = useState(0)
   const [stock, setStock] = useState(() => initialStock(drop))
@@ -44,7 +46,7 @@ export function BuyPanel({ drop, onAdd }: { drop: Drop; onAdd: (qty: number) => 
   const canOrder = !soldOut && !busy
 
   const subtotal = drop.priceAud * (quantity || 0)
-  const total = subtotal + SHIPPING_AUD
+  const total = subtotal + shippingAud
 
   const validateSelection = () => {
     if (!size) { setError('Choose a size first.'); return false }
@@ -170,6 +172,7 @@ export function BuyPanel({ drop, onAdd }: { drop: Drop; onAdd: (qty: number) => 
             quantity={quantity}
             subtotal={subtotal}
             total={total}
+            shippingAud={shippingAud}
             busy={busy}
             onCancel={() => setShowCheckout(false)}
             onSubmit={async (details) => {
@@ -220,13 +223,14 @@ function Counter({ remaining, soldOut }: { remaining: number; soldOut: boolean }
  * picked, so the order summary it opens with is never showing $0.
  */
 function CheckoutForm({
-  drop, size, quantity, subtotal, total, busy, onCancel, onSubmit,
+  drop, size, quantity, subtotal, total, shippingAud, busy, onCancel, onSubmit,
 }: {
   drop: Drop
   size: string
   quantity: number
   subtotal: number
   total: number
+  shippingAud: number
   busy: boolean
   onCancel: () => void
   onSubmit: (details: {
@@ -268,7 +272,7 @@ function CheckoutForm({
         </div>
         <div className="flex items-baseline justify-between text-ink/60">
           <span>Shipping</span>
-          <span>${SHIPPING_AUD} AUD</span>
+          <span>${shippingAud} AUD</span>
         </div>
         <div className="flex items-baseline justify-between border-t border-ink/15 pt-2 text-[15px] font-medium tracking-widest">
           <span>TOTAL</span>

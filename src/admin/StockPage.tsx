@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { liveDrop, sizeAllocation } from '../data/drops.ts'
+import { sizeAllocation } from '../data/drops.ts'
+import { useContent } from '../content/ContentContext.tsx'
 import { fetchStock } from '../lib/commerce.ts'
 import { PageHeader, StatCard } from './ui.tsx'
 
@@ -13,7 +14,7 @@ import { PageHeader, StatCard } from './ui.tsx'
  * automatically once you do.
  */
 export function StockPage() {
-  const drop = liveDrop()
+  const { drop } = useContent()
   const [live, setLive] = useState<Record<string, number> | null>(null)
   const [checked, setChecked] = useState(false)
 
@@ -22,7 +23,7 @@ export function StockPage() {
     fetchStock(drop.number).then((s) => { setLive(s); setChecked(true) })
   }, [drop])
 
-  if (!drop) {
+  if (drop.status !== 'live') {
     return (
       <div>
         <PageHeader title="STOCK TAKE" />

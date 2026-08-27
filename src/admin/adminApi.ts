@@ -71,3 +71,37 @@ export async function fetchSubmissions(): Promise<SubmissionsData> {
   if (res.status === 401) return { configured: false, submissions: [] }
   return res.json()
 }
+
+export interface AdminContentState {
+  configured: boolean
+  content: Record<string, unknown> | null
+}
+
+async function fetchAdminContentRaw(): Promise<AdminContentState> {
+  const res = await fetch('/api/admin/content', { credentials: 'same-origin' })
+  if (res.status === 401) return { configured: false, content: null }
+  return res.json()
+}
+
+export { fetchAdminContentRaw as fetchAdminContent }
+
+/**
+ * Saves one or more top-level sections of the content blob (e.g. "about",
+ * "seo") by re-reading the latest saved content, replacing just those keys,
+ * and writing the whole object back. Doing the read-merge-write here rather
+ * than trusting a draft loaded minutes ago means two admin pages editing
+ * different sections can't clobber each other.
+ */
+export async function saveAdminContentSections(
+  sections: Record<string, unknown>,
+): Promise<{ ok: boolean }> {
+  const current = await fetchAdminContentRaw()
+  const updated = { ...(current.content ?? {}), ...sections }
+  const res = await fetch('/api/admin/content', {
+    method: 'PUT',
+    credentials: 'same-origin',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(updated),
+  })
+  return res.json()
+}
