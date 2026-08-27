@@ -54,6 +54,45 @@ export async function fetchOverview(): Promise<OverviewData> {
   return res.json()
 }
 
+export interface OrderAddress {
+  line1: string
+  line2: string
+  city: string
+  region: string
+  postcode: string
+  country: string
+}
+
+export interface FullOrder {
+  id: string
+  createdAt: string
+  amountAud: number
+  currency: string
+  email: string
+  name: string
+  phone: string
+  dropNumber: string
+  size: string
+  quantity: string
+  notes: string
+  address: OrderAddress | null
+}
+
+export interface OrdersData {
+  configured: boolean
+  orders: FullOrder[]
+  hasMore: boolean
+  lastId?: string | null
+  error?: boolean
+}
+
+export async function fetchOrders(startingAfter?: string): Promise<OrdersData> {
+  const qs = startingAfter ? `?startingAfter=${encodeURIComponent(startingAfter)}` : ''
+  const res = await fetch(`/api/admin/orders${qs}`, { credentials: 'same-origin' })
+  if (res.status === 401) return { configured: false, orders: [], hasMore: false }
+  return res.json()
+}
+
 export interface Submission {
   name: string
   email: string
@@ -102,6 +141,57 @@ export async function saveAdminContentSections(
     credentials: 'same-origin',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(updated),
+  })
+  return res.json()
+}
+
+export interface MediaFile {
+  url: string
+  pathname: string
+  size: number
+  uploadedAt: string
+}
+
+export interface MediaData {
+  configured: boolean
+  files: MediaFile[]
+}
+
+export async function fetchMedia(): Promise<MediaData> {
+  const res = await fetch('/api/admin/media/list', { credentials: 'same-origin' })
+  if (res.status === 401) return { configured: false, files: [] }
+  return res.json()
+}
+
+export async function uploadMedia(file: File): Promise<{ ok: boolean; url?: string; reason?: string }> {
+  const res = await fetch(`/api/admin/media/upload?filename=${encodeURIComponent(file.name)}`, {
+    method: 'PUT',
+    credentials: 'same-origin',
+    headers: { 'Content-Type': file.type || 'application/octet-stream' },
+    body: file,
+  })
+  return res.json()
+}
+
+export async function deleteMedia(pathname: string): Promise<{ ok: boolean }> {
+  const res = await fetch('/api/admin/media/delete', {
+    method: 'POST',
+    credentials: 'same-origin',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ pathname }),
+  })
+  return res.json()
+}
+
+export async function changePassword(
+  currentPassword: string,
+  newPassword: string,
+): Promise<{ ok: boolean; reason?: string }> {
+  const res = await fetch('/api/admin/change-password', {
+    method: 'POST',
+    credentials: 'same-origin',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ currentPassword, newPassword }),
   })
   return res.json()
 }

@@ -1,17 +1,27 @@
 import crypto from 'node:crypto'
+import { getPasswordHash, isDbConfigured, setPasswordHash } from './db.js'
 
 /**
- * Stateless admin sessions: no database, so nothing to store or clean up.
- *
- * The cookie is `${expiresAt}.${signature}`, where signature is an
+ * Stateless admin sessions: the cookie is `${expiresAt}.${signature}`, an
  * HMAC-SHA256 of expiresAt keyed on ADMIN_SESSION_SECRET. Anyone holding a
  * valid cookie can prove it was issued by someone who knows the secret and
  * hasn't expired — that's the whole scheme. There is exactly one admin, so
  * there is nothing per-user to look up.
  *
- * Both ADMIN_PASSWORD and ADMIN_SESSION_SECRET must be set in Vercel's
- * environment variables. Neither has a default: an admin panel that is
- * "protected" by a blank password is worse than one that refuses to load.
+ * The password itself has two possible sources, checked in order:
+ *
+ *  1. A scrypt hash saved in the database, once someone changes the
+ *     password from the Account page. This is what "editing your account"
+ *     actually updates — there's no separate password store, just this one
+ *     row.
+ *  2. ADMIN_PASSWORD, the Vercel environment variable — the bootstrap
+ *     password, used only until a real one is set. Kept around rather than
+ *     cleared, so a broken database connection can't lock the one admin out
+ *     entirely.
+ *
+ * ADMIN_SESSION_SECRET must always be set: it signs the cookie, and an admin
+ * panel "protected" by a blank signing secret is worse than one that refuses
+ * to load.
  */
 
 const COOKIE_NAME = '10452_admin'
@@ -26,12 +36,38 @@ export function isAdminConfigured() {
   return !!(process.env.ADMIN_PASSWORD && process.env.ADMIN_SESSION_SECRET)
 }
 
-export function checkPassword(candidate) {
-  const expected = process.env.ADMIN_PASSWORD || ''
-  const a = Buffer.from(String(candidate || ''))
-  const b = Buffer.from(expected)
-  if (a.length !== b.length) return false
-  return crypto.timingSafeEqual(a, b)
+function timingSafeStringEqual(a, b) {
+  const bufA = Buffer.from(String(a || ''))
+  const bufB = Buffer.from(String(b || ''))
+  if (bufA.length !== bufB.length) return false
+  return crypto.timingSafeEqual(bufA, bufB)
+}
+
+function hashPassword(password) {
+  const salt = crypto.randomBytes(16).toString('hex')
+  const hash = crypto.scryptSync(password, salt, 64).toString('hex')
+  return `${salt}:${hash}`
+}
+
+function verifyHashedPassword(candidate, stored) {
+  const [salt, hash] = stored.split(':')
+  if (!salt || !hash) return false
+  const candidateHash = crypto.scryptSync(String(candidate || ''), salt, 64)
+  const storedHash = Buffer.from(hash, 'hex')
+  if (candidateHash.length !== storedHash.length) return false
+  return crypto.timingSafeEqual(candidateHash, storedHash)
+}
+
+export async function checkPassword(candidate) {
+  if (isDbConfigured()) {
+    const stored = await getPasswordHash().catch(() => null)
+    if (stored) return verifyHashedPassword(candidate, stored)
+  }
+  return timingSafeStringEqual(candidate, process.env.ADMIN_PASSWORD)
+}
+
+export async function setNewPassword(password) {
+  await setPasswordHash(hashPassword(password))
 }
 
 export function makeSessionCookie() {

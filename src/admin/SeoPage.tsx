@@ -23,7 +23,7 @@ export function SeoPage() {
     fetchAdminContent().then((res) => {
       setConfigured(res.configured)
       if (res.configured) setDraft(mergeContent(res.content as never).seo)
-    })
+    }).catch(() => setConfigured(false))
   }, [])
 
   if (configured === false) {
@@ -31,7 +31,10 @@ export function SeoPage() {
       <div>
         <PageHeader title="SEO" />
         <p className="max-w-md px-6 py-6 text-[12px] leading-relaxed text-ink/60">
-          No KV store is attached, so there is nowhere to save edits.
+          The database isn't connected yet, so there is nowhere to save
+          edits. Copy SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY from the
+          printparadise Vercel project into this one's environment
+          variables, same as for Submissions.
         </p>
       </div>
     )

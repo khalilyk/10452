@@ -1,10 +1,20 @@
+import { useContent } from '../content/ContentContext.tsx'
+
 /** Shared bits of the admin's bordered, black-on-white frame. */
 
 export function PageHeader({ title, subtitle }: { title: string; subtitle?: string }) {
+  const { brand } = useContent()
   return (
-    <div className="border-b-2 border-ink px-6 py-5">
-      <h1 className="text-[18px] font-bold tracking-widest">{title}</h1>
-      {subtitle && <p className="mt-1 text-[11px] tracking-widest text-ink/50">{subtitle}</p>}
+    <div className="flex h-[76px] items-center justify-between gap-4 border-b-2 border-ink px-6">
+      <div className="min-w-0">
+        <h1 className="truncate text-[18px] font-bold tracking-widest">{title}</h1>
+        {subtitle && <p className="mt-1 truncate text-[11px] tracking-widest text-ink/50">{subtitle}</p>}
+      </div>
+      {/* h-3/4 needs a parent with a real, fixed height to resolve against —
+          the row above is h-[76px] specifically so this isn't sized against
+          an "auto" flex-stretch height, which browsers treat as no height at
+          all and fall back to the image's natural (huge) intrinsic size. */}
+      <img src={brand.faviconUrl} alt="" aria-hidden className="h-3/4 w-auto shrink-0" />
     </div>
   )
 }

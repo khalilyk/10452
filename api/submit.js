@@ -1,10 +1,10 @@
-import { isKvConfigured, pushSubmission } from './_lib/kv.js'
+import { isDbConfigured, pushSubmission } from './_lib/db.js'
 
 /**
  * Public endpoint the contact form posts to, best-effort, alongside its
  * existing mailto behaviour. Nothing about the visible contact flow changes
- * if this fails or KV isn't configured — it's purely so submissions show up
- * in /admin once a KV store is attached.
+ * if this fails or the database isn't configured — it's purely so submissions
+ * show up in /admin once it is.
  */
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -12,7 +12,7 @@ export default async function handler(req, res) {
     return
   }
 
-  if (!isKvConfigured()) {
+  if (!isDbConfigured()) {
     res.status(200).json({ ok: false, reason: 'not-configured' })
     return
   }

@@ -12,7 +12,7 @@ export default async function handler(req, res) {
   }
 
   const { password } = req.body || {}
-  if (!checkPassword(password)) {
+  if (!(await checkPassword(password))) {
     res.status(401).json({ ok: false, reason: 'wrong-password' })
     return
   }

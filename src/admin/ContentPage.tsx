@@ -7,7 +7,7 @@ import { ListInput, NumberInput, PageHeader, SaveBar, TextAreaInput, TextInput }
  * Everything a visitor reads, in one editable form.
  *
  * Loads the effective values (defaults merged with whatever's saved), not
- * the raw KV blob — editing should never start from a blank field just
+ * the raw saved record. Editing should never start from a blank field just
  * because that particular line hasn't been touched from admin yet.
  */
 export function ContentPage() {
@@ -20,7 +20,7 @@ export function ContentPage() {
     fetchAdminContent().then((res) => {
       setConfigured(res.configured)
       if (res.configured) setDraft(mergeContent(res.content as Partial<SiteContent> | null))
-    })
+    }).catch(() => setConfigured(false))
   }, [])
 
   if (configured === false) {
@@ -28,9 +28,10 @@ export function ContentPage() {
       <div>
         <PageHeader title="PAGE EDITOR" />
         <p className="max-w-md px-6 py-6 text-[12px] leading-relaxed text-ink/60">
-          No KV store is attached, so there is nowhere to save edits. Attach
-          one from the Storage tab in the Vercel dashboard, same as for
-          Submissions.
+          The database isn't connected yet, so there is nowhere to save
+          edits. Copy SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY from the
+          printparadise Vercel project into this one's environment
+          variables, same as for Submissions.
         </p>
       </div>
     )

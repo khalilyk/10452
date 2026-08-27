@@ -69,6 +69,7 @@ export default async function handler(req, res) {
       metadata: {
         dropNumber: drop.number,
         size,
+        quantity: String(quantity),
         buyerName: name || '',
         buyerPhone: phone || '',
         addressAsEntered: [address1, address2, city, region, postcode, country].filter(Boolean).join(', '),

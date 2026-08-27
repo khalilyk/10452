@@ -1,8 +1,8 @@
 import { requireSession } from '../_lib/adminAuth.js'
-import { isKvConfigured, listSubmissions } from '../_lib/kv.js'
+import { isDbConfigured, listSubmissions } from '../_lib/db.js'
 
 export default requireSession(async (req, res) => {
-  if (!isKvConfigured()) {
+  if (!isDbConfigured()) {
     res.status(200).json({ configured: false, submissions: [] })
     return
   }

@@ -1,13 +1,13 @@
-import { getContent, isKvConfigured } from './_lib/kv.js'
+import { getContent, isDbConfigured } from './_lib/db.js'
 
 /**
  * Public: whatever content has been saved from /admin, or nothing if there's
- * no KV store or no edit has been made yet — the client already knows how to
+ * no database configured, or no edit has been made yet — the client already knows how to
  * fall back to its own defaults in that case, so this only ever returns real
  * overrides, never a guess.
  */
 export default async function handler(req, res) {
-  if (!isKvConfigured()) {
+  if (!isDbConfigured()) {
     res.status(200).json({ content: null })
     return
   }

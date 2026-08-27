@@ -20,10 +20,11 @@ export function SubmissionsPage() {
       {data && !data.configured && (
         <div className="px-6 py-6">
           <p className="max-w-md text-[12px] leading-relaxed text-ink/60">
-            No KV store is attached to this project, so contact-form
-            submissions have nowhere to land yet. Attach a Vercel KV store to
-            the project (Storage tab in the Vercel dashboard) and this fills
-            in automatically: no code changes needed.
+            The database isn't connected yet, so contact-form submissions
+            have nowhere to land. Copy SUPABASE_URL and
+            SUPABASE_SERVICE_ROLE_KEY from the printparadise Vercel project
+            into this project's environment variables and run the setup SQL
+            once: no code changes needed after that.
           </p>
         </div>
       )}
