@@ -83,7 +83,7 @@ export function GiftModal() {
         aria-modal="true"
         aria-labelledby="gift-modal-heading"
         onClick={(e) => e.stopPropagation()}
-        className="relative grid w-full max-w-md overflow-visible bg-white sm:max-w-2xl sm:grid-cols-2"
+        className="relative grid max-h-[90vh] w-full max-w-md overflow-y-auto bg-white sm:max-h-none sm:max-w-2xl sm:grid-cols-2"
       >
         {/* An inner frame around the whole card rather than a second outer
             border, so it reads like one ticket, not two panels stuck
@@ -94,7 +94,7 @@ export function GiftModal() {
           type="button"
           onClick={dismiss}
           aria-label="Close"
-          className="absolute right-4 top-4 z-20 text-[13px] tracking-widest text-ink/50 transition-opacity hover:opacity-60 sm:text-white/70 sm:hover:text-white"
+          className="absolute right-5 top-5 z-20 text-[24px] leading-none text-ink/50 transition-opacity hover:opacity-60"
         >
           ✕
         </button>
