@@ -11,6 +11,7 @@ import { Contact } from './components/Contact.tsx'
 import { Marquee } from './components/Marquee.tsx'
 import { FooterMark } from './components/FooterMark.tsx'
 import { Footer } from './components/Footer.tsx'
+import { GiftModal } from './components/GiftModal.tsx'
 import { ContentProvider, useContent } from './content/ContentContext.tsx'
 
 export default function App() {
@@ -53,6 +54,7 @@ function AppInner() {
       <Contact />
       <FooterMark />
       <Footer />
+      <GiftModal />
     </div>
   )
 }
