@@ -5,14 +5,18 @@ const DISMISS_KEY = '10452-gift-modal-dismissed'
 const DELAY_MS = 3500
 
 /**
- * A free-gift email capture, in the same wireframe language as the rest of
- * the site: the chair line-art (the favicon asset, already drawn exactly
- * this way) filling one black half, the offer and form on the other.
+ * A free-gift email capture.
  *
- * Shown once per browser, after a short delay rather than on load — a modal
+ * Single column on mobile (small chair, then the offer) so it doesn't take
+ * over a small screen; a split screen on desktop (chair filling a black
+ * panel on the left, offer and form on the right) once there's room for it.
+ * One inner frame wraps the whole card either way, so it reads as one
+ * ticket rather than two things stuck together.
+ *
+ * Shows once per browser, after a short delay rather than on load — a modal
  * covering the page before anyone has seen it reads as a wall, not an offer.
- * Submits through the same /api/submit endpoint the contact form uses, so
- * an address collected here shows up in Submissions like any other message,
+ * Submits through the same /api/submit endpoint the contact form uses, so an
+ * address collected here shows up in Submissions like any other message,
  * with nothing new to wire up.
  */
 export function GiftModal() {
@@ -79,23 +83,32 @@ export function GiftModal() {
         aria-modal="true"
         aria-labelledby="gift-modal-heading"
         onClick={(e) => e.stopPropagation()}
-        className="grid w-full max-w-3xl overflow-hidden bg-cream sm:grid-cols-2"
+        className="relative grid w-full max-w-md overflow-visible bg-white sm:max-w-2xl sm:grid-cols-2"
       >
-        <div className="relative order-2 flex aspect-[4/3] items-center justify-center bg-ink sm:order-1 sm:aspect-auto">
-          <Hatch />
-          <img src={brand.faviconUrl} alt="" aria-hidden className="relative h-40 w-auto invert sm:h-52" />
+        {/* An inner frame around the whole card rather than a second outer
+            border, so it reads like one ticket, not two panels stuck
+            together. */}
+        <div aria-hidden className="pointer-events-none absolute inset-[10px] z-10 border-2 border-ink" />
+
+        <button
+          type="button"
+          onClick={dismiss}
+          aria-label="Close"
+          className="absolute right-4 top-4 z-20 text-[13px] tracking-widest text-ink/50 transition-opacity hover:opacity-60 sm:text-white/70 sm:hover:text-white"
+        >
+          ✕
+        </button>
+
+        <div className="flex items-center justify-center bg-white px-6 pt-10 sm:bg-ink sm:px-8 sm:py-12">
+          <img
+            src={brand.faviconUrl}
+            alt=""
+            aria-hidden
+            className="h-20 w-auto sm:h-48 sm:invert"
+          />
         </div>
 
-        <div className="relative order-1 flex flex-col justify-center px-6 py-9 sm:order-2 sm:px-9 sm:py-10">
-          <button
-            type="button"
-            onClick={dismiss}
-            aria-label="Close"
-            className="absolute right-4 top-4 text-[13px] tracking-widest text-ink/50 transition-opacity hover:opacity-60"
-          >
-            ✕
-          </button>
-
+        <div className="px-6 py-10 text-center sm:px-10 sm:text-left">
           <p className="text-[11px] tracking-widest text-ink/50">
             <span aria-hidden className="mr-2 text-liban-red">✦</span>
             THIS DROP ONLY
@@ -103,42 +116,37 @@ export function GiftModal() {
           </p>
           <h2
             id="gift-modal-heading"
-            className="mt-2 text-[46px] font-bold uppercase leading-[0.88] tracking-tight text-liban-red sm:text-[60px]"
+            className="mt-2 text-[42px] font-bold uppercase leading-[0.9] tracking-tight text-liban-red sm:text-[52px]"
           >
-            Surprise
-            <br />
-            Gift
+            Surprise Gift
           </h2>
 
           {state === 'done' ? (
-            <p className="mt-5 text-[13px] leading-relaxed text-ink/75">
+            <p className="mx-auto mt-5 max-w-xs text-[13px] leading-relaxed text-ink/75 sm:mx-0">
               You're on the list. We'll email you before the gift or the drop runs out.
             </p>
           ) : (
             <>
-              <p className="mt-4 text-[14px] leading-relaxed text-ink">
+              <p className="mx-auto mt-4 max-w-xs text-[14px] leading-relaxed text-ink sm:mx-0">
                 <span className="font-bold">Free with every tee this drop:</span> a
-                surprise straight from Batroun, no extra cost. Leave your
-                email and we'll let you know before it runs out.
+                surprise straight from Batroun, no extra cost.
               </p>
 
-              <form onSubmit={submit} className="mt-6">
-                <label className="block">
-                  <span className="text-[10px] tracking-widest text-ink/50">EMAIL</span>
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    autoComplete="email"
-                    className="mt-2 h-[50px] w-full border border-ink/25 bg-transparent px-4 text-[13px] text-ink outline-none transition-colors focus:border-ink"
-                    placeholder="you@example.com"
-                  />
-                </label>
+              <form onSubmit={submit} className="mt-6 text-left">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  autoComplete="email"
+                  aria-label="Email"
+                  className="h-[50px] w-full border border-ink/25 bg-transparent px-4 text-[13px] text-ink outline-none transition-colors focus:border-ink"
+                  placeholder="Enter your email address"
+                />
 
                 <button
                   type="submit"
                   disabled={state === 'busy'}
-                  className="mt-3 h-[52px] w-full bg-liban-red text-[13px] font-bold tracking-widest text-white transition-opacity hover:opacity-85 disabled:opacity-40"
+                  className="mt-3 h-[52px] w-full bg-ink text-[13px] font-bold tracking-widest text-white transition-opacity hover:opacity-85 disabled:opacity-40"
                 >
                   {state === 'busy' ? 'ONE MOMENT…' : 'CLAIM MY GIFT'}
                 </button>
@@ -150,24 +158,17 @@ export function GiftModal() {
                 )}
               </form>
 
-              <p className="mt-4 text-[10.5px] leading-relaxed text-ink/40">
-                No spam. Unsubscribe anytime.
-              </p>
+              <button
+                type="button"
+                onClick={dismiss}
+                className="mt-4 text-[11.5px] tracking-wide text-ink/40 underline-offset-4 transition-colors hover:text-ink/60 hover:underline"
+              >
+                Not interested
+              </button>
             </>
           )}
         </div>
       </div>
     </div>
-  )
-}
-
-function Hatch() {
-  return (
-    <svg aria-hidden className="absolute inset-0 h-full w-full opacity-[0.08]">
-      <pattern id="gift-modal-hatch" width="14" height="14" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-        <line x1="0" y1="0" x2="0" y2="14" stroke="white" strokeWidth="1" />
-      </pattern>
-      <rect width="100%" height="100%" fill="url(#gift-modal-hatch)" />
-    </svg>
   )
 }
